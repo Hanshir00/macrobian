@@ -1,0 +1,118 @@
+---
+import { site } from '../config/site';
+
+const year = new Date().getFullYear();
+
+// Filter out empty social links
+const activeSocials = Object.entries(site.socials).filter(([, url]) => url);
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__brand">
+      <p class="site-footer__mark">{site.name}</p>
+      <p class="site-footer__tagline">{site.tagline}</p>
+    </div>
+
+    {activeSocials.length > 0 && (
+      <nav class="site-footer__social" aria-label="Social">
+        <ul>
+          {activeSocials.map(([key, url]) => (
+            <li>
+              <a href={url as string} target="_blank" rel="noopener noreferrer">
+                {key}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
+
+    <p class="site-footer__copy">
+      <span>© {year} {site.name}</span>
+      <span class="site-footer__sep" aria-hidden="true">·</span>
+      <span>The information here is not medical advice.</span>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--s-20);
+    padding-block: var(--s-12) var(--s-8);
+    background: var(--c-paper-edge);
+    border-top: 1px solid var(--c-rule);
+  }
+
+  .site-footer__inner {
+    display: grid;
+    gap: var(--s-8);
+  }
+
+  @media (min-width: 768px) {
+    .site-footer__inner {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+    .site-footer__copy {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .site-footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+  }
+
+  .site-footer__mark {
+    font-family: var(--f-display);
+    font-size: var(--t-2xl);
+    color: var(--c-ink-soft);
+    line-height: 1;
+    letter-spacing: var(--tr-tight);
+    font-variation-settings: 'opsz' 144, 'SOFT' 50;
+  }
+
+  .site-footer__tagline {
+    font-size: var(--t-sm);
+    color: var(--c-ink-mute);
+    font-style: italic;
+    margin: 0;
+  }
+
+  .site-footer__social ul {
+    list-style: none;
+    display: flex;
+    gap: var(--s-5);
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-footer__social a {
+    font-size: var(--t-xs);
+    text-transform: capitalize;
+    letter-spacing: var(--tr-wide);
+    color: var(--c-ink-mute);
+  }
+
+  .site-footer__social a:hover {
+    color: var(--c-ink);
+  }
+
+  .site-footer__copy {
+    font-size: var(--t-xs);
+    color: var(--c-ink-mute);
+    letter-spacing: var(--tr-wide);
+    padding-top: var(--s-6);
+    border-top: 1px solid var(--c-rule-soft);
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+  }
+
+  .site-footer__sep {
+    color: var(--c-rule);
+  }
+</style>

@@ -1,0 +1,240 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, primaryNav } from '../config/site';
+---
+
+<Base variant="landing" showHeader={false}>
+  <section class="landing">
+    <div class="landing__brand">
+      <p class="landing__est eyebrow">Est. MMXXVI</p>
+      <h1 class="landing__mark">{site.name}</h1>
+      <p class="landing__tagline">{site.tagline}</p>
+    </div>
+
+    <div class="landing__portals" role="navigation" aria-label="Site sections">
+      {primaryNav.map((item, i) => (
+        <a class="portal" href={item.href} style={`--i: ${i}`}>
+          <span class="portal__index" aria-hidden="true">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <span class="portal__label">{item.label}</span>
+          <span class="portal__desc">{item.description}</span>
+          <span class="portal__cue" aria-hidden="true">
+            <svg viewBox="0 0 32 32">
+              <path
+                d="M6 16h20M20 8l8 8-8 8"
+                stroke="currentColor"
+                stroke-width="1.25"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+        </a>
+      ))}
+    </div>
+
+    <p class="landing__footnote">
+      <span>{site.name}</span>
+      <span aria-hidden="true">·</span>
+      <span>A practice of inquiry and vitality.</span>
+    </p>
+  </section>
+</Base>
+
+<style>
+  .landing {
+    min-height: 100svh;
+    display: grid;
+    grid-template-rows: 1fr auto auto;
+    align-items: center;
+    padding: var(--s-8) var(--s-6);
+    max-width: var(--container-max);
+    margin-inline: auto;
+    gap: var(--s-8);
+  }
+
+  /* ---- Brand block ---- */
+
+  .landing__brand {
+    text-align: center;
+    align-self: end;
+    padding-top: var(--s-12);
+    animation: fade-up var(--dur-slow) var(--ease-out) both;
+  }
+
+  .landing__est {
+    color: var(--c-ink-mute);
+    margin-bottom: var(--s-5);
+    display: block;
+  }
+
+  .landing__mark {
+    font-family: var(--f-display);
+    font-size: clamp(4rem, 14vw, 9rem);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    color: var(--c-ink);
+    font-weight: 300;
+    font-variation-settings: 'opsz' 144, 'SOFT' 100;
+    margin: 0;
+  }
+
+  .landing__tagline {
+    margin-top: var(--s-5);
+    font-family: var(--f-display);
+    font-style: italic;
+    font-size: clamp(var(--t-md), 2.2vw, var(--t-lg));
+    color: var(--c-ink-mute);
+    font-weight: 300;
+    letter-spacing: var(--tr-snug);
+    max-width: 30ch;
+    margin-inline: auto;
+    font-variation-settings: 'opsz' 96, 'SOFT' 100;
+  }
+
+  /* ---- Portals ---- */
+
+  .landing__portals {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--s-4);
+    margin-top: var(--s-8);
+    animation: fade-up var(--dur-slow) var(--ease-out) 200ms both;
+  }
+
+  @media (min-width: 720px) {
+    .landing__portals {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-5);
+    }
+  }
+
+  .portal {
+    --portal-pad: var(--s-8);
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "index label cue"
+      "index desc  cue";
+    column-gap: var(--s-5);
+    row-gap: var(--s-2);
+    align-items: center;
+    padding: var(--portal-pad);
+    background: var(--c-paper-deep);
+    border: 1px solid var(--c-rule);
+    border-radius: var(--radius-md);
+    color: var(--c-ink);
+    text-decoration: none;
+    overflow: hidden;
+    isolation: isolate;
+    transition:
+      transform var(--dur-med) var(--ease-out),
+      border-color var(--dur-med) var(--ease-out),
+      box-shadow var(--dur-med) var(--ease-out);
+  }
+
+  .portal::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(120% 80% at 100% 100%, rgba(74, 88, 64, 0.08), transparent 60%);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity var(--dur-med) var(--ease-out);
+  }
+
+  .portal:hover {
+    transform: translateY(-2px);
+    border-color: var(--c-moss-deep);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .portal:hover::before {
+    opacity: 1;
+  }
+
+  .portal__index {
+    grid-area: index;
+    font-family: var(--f-display);
+    font-style: italic;
+    font-size: var(--t-md);
+    color: var(--c-ink-mute);
+    font-weight: 300;
+    align-self: start;
+    padding-top: 0.4em;
+    font-variation-settings: 'opsz' 24;
+  }
+
+  .portal__label {
+    grid-area: label;
+    font-family: var(--f-display);
+    font-size: clamp(var(--t-2xl), 4.5vw, var(--t-3xl));
+    line-height: 1;
+    letter-spacing: var(--tr-tight);
+    color: var(--c-ink-soft);
+    font-weight: 400;
+    font-variation-settings: 'opsz' 144, 'SOFT' 50;
+  }
+
+  .portal__desc {
+    grid-area: desc;
+    font-size: var(--t-sm);
+    color: var(--c-ink-mute);
+    line-height: var(--ld-snug);
+    max-width: 28ch;
+  }
+
+  .portal__cue {
+    grid-area: cue;
+    width: 1.75rem;
+    height: 1.75rem;
+    color: var(--c-ink-mute);
+    transition: transform var(--dur-med) var(--ease-out),
+                color var(--dur-med) var(--ease-out);
+  }
+
+  .portal:hover .portal__cue {
+    transform: translateX(4px);
+    color: var(--c-moss-deep);
+  }
+
+  .portal__cue svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ---- Footnote ---- */
+
+  .landing__footnote {
+    text-align: center;
+    font-size: var(--t-xs);
+    letter-spacing: var(--tr-eyebrow);
+    text-transform: uppercase;
+    color: var(--c-ink-mute);
+    padding-top: var(--s-6);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: var(--s-3);
+    flex-wrap: wrap;
+    animation: fade-up var(--dur-slow) var(--ease-out) 400ms both;
+  }
+
+  /* ---- Animations ---- */
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

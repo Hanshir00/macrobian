@@ -1,0 +1,142 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { sanguineNav } from '../../config/site';
+import { getCollection } from 'astro:content';
+
+const peptides = await getCollection('peptides', ({ data }) => !data.draft);
+const nootropics = await getCollection('nootropics', ({ data }) => !data.draft);
+
+const counts: Record<string, number> = {
+  '/sanguine/peptides': peptides.length,
+  '/sanguine/nootropics': nootropics.length,
+};
+---
+
+<Base
+  title="Sanguine"
+  description="Practical guidance on peptides, nootropics, and the pursuit of robust health."
+>
+  <div class="container container--narrow">
+    <PageHeader
+      eyebrow="Sanguine"
+      title="Practical guidance, carefully considered."
+      description="Peptides and nootropics, mapped from the literature and refined in practice. A repository of working knowledge — not a substitute for medical care."
+    />
+
+    <ul class="section-list">
+      {sanguineNav.map((item) => (
+        <li>
+          <a href={item.href} class="section-card">
+            <div class="section-card__head">
+              <h2 class="section-card__name">{item.label}</h2>
+              {counts[item.href] !== undefined && (
+                <span class="section-card__count eyebrow">
+                  {counts[item.href]} entries
+                </span>
+              )}
+            </div>
+            <span class="section-card__cue" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M5 12h14M14 6l6 6-6 6"
+                  stroke="currentColor"
+                  stroke-width="1.25"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <p class="disclaimer">
+      The information on this site is for educational purposes only and does not
+      constitute medical advice. Consult a qualified clinician before making any
+      change to your health practices.
+    </p>
+  </div>
+</Base>
+
+<style>
+  .section-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .section-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s-5);
+    padding: var(--s-6) 0;
+    border-top: 1px solid var(--c-rule);
+    color: var(--c-ink);
+    text-decoration: none;
+    transition: padding-left var(--dur-fast) var(--ease-out);
+  }
+
+  .section-list li:last-child .section-card {
+    border-bottom: 1px solid var(--c-rule);
+  }
+
+  .section-card:hover {
+    padding-left: var(--s-3);
+  }
+
+  .section-card__head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s-5);
+    flex-wrap: wrap;
+  }
+
+  .section-card__name {
+    font-family: var(--f-display);
+    font-size: clamp(var(--t-xl), 4vw, var(--t-2xl));
+    font-weight: 400;
+    color: var(--c-ink-soft);
+    letter-spacing: var(--tr-tight);
+    font-variation-settings: 'opsz' 144, 'SOFT' 50;
+    margin: 0;
+  }
+
+  .section-card__count {
+    color: var(--c-ink-mute);
+  }
+
+  .section-card__cue {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--c-ink-mute);
+    transition: transform var(--dur-fast) var(--ease-out),
+                color var(--dur-fast) var(--ease-out);
+    flex-shrink: 0;
+  }
+
+  .section-card:hover .section-card__cue {
+    transform: translateX(4px);
+    color: var(--c-bark-deep);
+  }
+
+  .section-card__cue svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .disclaimer {
+    margin-top: var(--s-12);
+    padding: var(--s-5);
+    border: 1px solid var(--c-rule);
+    border-radius: var(--radius-md);
+    background: var(--c-paper-deep);
+    font-size: var(--t-sm);
+    color: var(--c-ink-mute);
+    line-height: var(--ld-relaxed);
+    font-style: italic;
+  }
+</style>
