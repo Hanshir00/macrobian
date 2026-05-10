@@ -1,0 +1,31 @@
+{
+  "title": "Sanguine",
+  "description": "Practical guidance on peptides, nootropics, and the pursuit of robust health.",
+  "blocks": [
+    {
+      "discriminant": "sectionHeader",
+      "value": {
+        "eyebrow": "Sanguine",
+        "title": "Practical guidance, carefully considered.",
+        "description": "Peptides and nootropics, mapped from the literature and refined in practice. A repository of working knowledge — not a substitute for medical care.",
+        "align": "left"
+      }
+    },
+    {
+      "discriminant": "sectionList",
+      "value": {
+        "items": [
+          { "label": "Peptides",   "description": "A working catalog of peptides, with summaries and sources.", "href": "/sanguine/peptides",   "external": false },
+          { "label": "Nootropics", "description": "Cognitive compounds, ranked and explained — from established to experimental.", "href": "/sanguine/nootropics", "external": false },
+          { "label": "Contact",    "description": "Get in touch.", "href": "/sanguine/contact", "external": false }
+        ]
+      }
+    },
+    {
+      "discriminant": "disclaimer",
+      "value": {
+        "text": "The information on this site is for educational purposes only and does not constitute medical advice. Consult a qualified clinician before making any change to your health practices."
+      }
+    }
+  ]
+}
