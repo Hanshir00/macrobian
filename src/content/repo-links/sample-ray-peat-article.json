@@ -1,11 +1,11 @@
 {
-  "title": "Sample Article — replace with a real link",
-  "url": "https://example.com",
-  "topic": "humanities",
-  "subtopic": "ray-peat",
-  "type": "Article",
   "author": "Ray Peat",
-  "year": 2006,
+  "topic": "humanities",
+  "url": "https://www.youtube.com/shorts/uy7mqGkzUuA",
+  "subtopic": "ray-peat",
+  "addedAt": "",
+  "title": "Bozo Maxxing Yeah Yeah!!! ",
+  "type": "Article",
   "description": "Placeholder entry. Replace with a real link via the CMS at /admin or by editing the file directly.",
-  "addedAt": "2026-01-01T00:00:00.000Z"
+  "year": 2006
 }
