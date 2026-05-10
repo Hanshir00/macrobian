@@ -1,0 +1,28 @@
+---
+interface Props { text: string; divider?: boolean; }
+const { text, divider = true } = Astro.props;
+---
+
+<section class:list={['block-footnote', { 'has-divider': divider }]}>
+  <div class="container container--narrow">
+    <p class="block-footnote__text">{text}</p>
+  </div>
+</section>
+
+<style>
+  .block-footnote {
+    padding-block: var(--s-6);
+    text-align: center;
+  }
+  .block-footnote.has-divider {
+    border-top: 1px solid var(--c-rule-soft);
+    margin-top: var(--s-8);
+  }
+  .block-footnote__text {
+    font-size: var(--t-xs);
+    letter-spacing: var(--tr-eyebrow);
+    text-transform: uppercase;
+    color: var(--c-ink-mute);
+    margin: 0;
+  }
+</style>
