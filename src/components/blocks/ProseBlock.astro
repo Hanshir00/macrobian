@@ -1,0 +1,15 @@
+---
+interface Props { content: string; }
+const { content } = Astro.props;
+const paragraphs = (content || '').split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+---
+
+<section class="block-prose">
+  <div class="container container--prose prose">
+    {paragraphs.map((p) => <p>{p}</p>)}
+  </div>
+</section>
+
+<style>
+  .block-prose { padding-block: var(--s-6); }
+</style>

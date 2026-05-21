@@ -1,0 +1,39 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  width?: 'narrow' | 'standard' | 'full';
+}
+const { src, alt, caption, width = 'standard' } = Astro.props;
+---
+
+<figure class:list={['block-image', `is-${width}`]}>
+  <div class="block-image__inner">
+    <img src={src} alt={alt} loading="lazy" />
+    {caption && <figcaption class="block-image__caption">{caption}</figcaption>}
+  </div>
+</figure>
+
+<style>
+  .block-image { padding-block: var(--s-6); margin: 0; }
+
+  .block-image.is-narrow .block-image__inner   { max-width: var(--container-prose); margin-inline: auto; padding-inline: var(--s-6); }
+  .block-image.is-standard .block-image__inner { max-width: var(--container-narrow); margin-inline: auto; padding-inline: var(--s-6); }
+  .block-image.is-full .block-image__inner     { max-width: var(--container-max); margin-inline: auto; padding-inline: var(--s-4); }
+
+  .block-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+  }
+  .block-image__caption {
+    margin-top: var(--s-3);
+    font-size: var(--t-sm);
+    color: var(--c-ink-mute);
+    font-style: italic;
+    text-align: center;
+  }
+</style>

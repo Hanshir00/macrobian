@@ -1,0 +1,15 @@
+---
+export const prerender = true;
+
+import Base from '../../layouts/Base.astro';
+import BlockRenderer from '../../components/BlockRenderer.astro';
+import { getPage } from '../../config/pages';
+
+const page = getPage('contact');
+---
+
+<Base title={page.title} description={page.description}>
+  <div data-pagefind-body data-pagefind-meta="title:Contact">
+    <BlockRenderer blocks={page.blocks} />
+  </div>
+</Base>

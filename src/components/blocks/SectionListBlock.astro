@@ -1,0 +1,102 @@
+---
+interface Item {
+  label: string;
+  description?: string;
+  href: string;
+  external?: boolean;
+}
+interface Props {
+  title?: string;
+  items: Item[];
+}
+
+const { title, items } = Astro.props;
+---
+
+<section class="block-section-list">
+  <div class="container container--narrow">
+    {title && <p class="block-section-list__title eyebrow">{title}</p>}
+    <ul>
+      {items.map((item) => (
+        <li>
+          <a
+            class="block-section-list__item"
+            href={item.href}
+            target={item.external ? '_blank' : undefined}
+            rel={item.external ? 'noopener noreferrer' : undefined}
+          >
+            <span class="block-section-list__name">{item.label}</span>
+            {item.description && <span class="block-section-list__desc">{item.description}</span>}
+            <span class="block-section-list__cue" aria-hidden="true">
+              <svg viewBox="0 0 16 16">
+                <path d={item.external ? 'M3 13L13 3M13 3H6M13 3V10' : 'M2 8H14M14 8L9 3M14 8L9 13'}
+                  stroke="currentColor" stroke-width="1.25" fill="none"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .block-section-list { padding-block: var(--s-4); }
+  .block-section-list__title {
+    color: var(--c-bark-deep);
+    margin-bottom: var(--s-5);
+    display: block;
+  }
+  .block-section-list ul {
+    list-style: none;
+    margin: 0; padding: 0;
+  }
+  .block-section-list__item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    grid-template-areas: "name cue" "desc cue";
+    column-gap: var(--s-4);
+    row-gap: var(--s-1);
+    padding: var(--s-5) 0;
+    border-top: 1px solid var(--c-rule);
+    color: var(--c-ink);
+    text-decoration: none;
+    transition: padding-left var(--dur-fast) var(--ease-out);
+  }
+  .block-section-list li:last-child .block-section-list__item { border-bottom: 1px solid var(--c-rule); }
+  .block-section-list__item:hover { padding-left: var(--s-3); }
+
+  .block-section-list__name {
+    grid-area: name;
+    font-family: var(--f-display);
+    font-size: clamp(var(--t-xl), 4vw, var(--t-2xl));
+    color: var(--c-ink-soft);
+    font-weight: 400;
+    line-height: var(--ld-snug);
+    font-variation-settings: 'opsz' 144;
+  }
+  .block-section-list__desc {
+    grid-area: desc;
+    font-size: var(--t-sm);
+    color: var(--c-ink-mute);
+    line-height: var(--ld-relaxed);
+    max-width: 60ch;
+  }
+  .block-section-list__cue {
+    grid-area: cue;
+    align-self: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--c-ink-mute);
+    transition: transform var(--dur-fast) var(--ease-out),
+                color var(--dur-fast) var(--ease-out);
+    flex-shrink: 0;
+  }
+  .block-section-list__cue svg { width: 100%; height: 100%; }
+  .block-section-list__item:hover .block-section-list__cue {
+    transform: translateX(4px);
+    color: var(--c-bark-deep);
+  }
+</style>
