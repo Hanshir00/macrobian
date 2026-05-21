@@ -1,0 +1,344 @@
+---
+/**
+ * Persistent search bar — appears in the sticky header on every page.
+ * Uses Pagefind for client-side full-text search of the static index
+ * built into /pagefind/* at deploy time.
+ *
+ * Keyboard: Cmd/Ctrl+K to focus. Esc to close results.
+ */
+---
+
+<div class="search" id="search-root">
+  <div class="search__bar">
+    <svg class="search__icon" viewBox="0 0 16 16" aria-hidden="true">
+      <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.25" fill="none" />
+      <line x1="11" y1="11" x2="14" y2="14" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" />
+    </svg>
+    <input
+      id="search-input"
+      type="search"
+      placeholder="Search…"
+      autocomplete="off"
+      spellcheck="false"
+      aria-label="Search the site"
+    />
+    <kbd class="search__kbd" aria-hidden="true">⌘K</kbd>
+  </div>
+
+  <div class="search__panel" id="search-panel" hidden>
+    <div class="search__filters" id="search-filters" role="tablist" aria-label="Filter by section">
+      <button class="search__chip is-active" data-filter="" role="tab" aria-selected="true">All</button>
+      <button class="search__chip" data-filter="repository"  role="tab" aria-selected="false">Repository</button>
+      <button class="search__chip" data-filter="peptides"    role="tab" aria-selected="false">Peptides</button>
+      <button class="search__chip" data-filter="nootropics"  role="tab" aria-selected="false">Nootropics</button>
+    </div>
+
+    <div class="search__status eyebrow" id="search-status" aria-live="polite">
+      Type to search.
+    </div>
+
+    <ul class="search__results" id="search-results" role="listbox"></ul>
+  </div>
+</div>
+
+<style>
+  .search {
+    position: relative;
+    width: 100%;
+    max-width: 22rem;
+  }
+
+  .search__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    padding: 0 var(--s-3);
+    background: color-mix(in srgb, var(--c-paper) 80%, var(--c-ink) 5%);
+    border: 1px solid var(--c-rule);
+    border-radius: var(--radius-sm);
+    height: 36px;
+    transition: border-color var(--dur-fast) var(--ease-out),
+                background var(--dur-fast) var(--ease-out);
+  }
+  .search__bar:focus-within {
+    border-color: var(--c-moss-deep);
+    background: var(--c-paper);
+  }
+
+  .search__icon { width: 14px; height: 14px; color: var(--c-ink-mute); flex-shrink: 0; }
+
+  .search__bar input {
+    flex: 1;
+    appearance: none;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    font-family: var(--f-body);
+    font-size: var(--t-sm);
+    color: var(--c-ink);
+    letter-spacing: var(--tr-snug);
+    min-width: 0;
+  }
+  .search__bar input::placeholder { color: var(--c-ink-mute); }
+  .search__bar input::-webkit-search-cancel-button { display: none; }
+
+  .search__kbd {
+    font-family: var(--f-mono);
+    font-size: 0.7rem;
+    color: var(--c-ink-mute);
+    background: color-mix(in srgb, var(--c-paper-deep) 70%, var(--c-ink) 5%);
+    border: 1px solid var(--c-rule);
+    border-radius: var(--radius-sm);
+    padding: 0.1em 0.4em;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  @media (max-width: 640px) {
+    .search__kbd { display: none; }
+    .search { max-width: none; flex: 1; }
+  }
+
+  .search__panel {
+    position: absolute;
+    top: calc(100% + var(--s-3));
+    left: 0;
+    right: 0;
+    min-width: 22rem;
+    max-width: min(34rem, calc(100vw - 2rem));
+    background: var(--c-paper);
+    border: 1px solid var(--c-rule);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: var(--s-4);
+    z-index: 60;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  @media (max-width: 640px) {
+    .search__panel {
+      position: fixed;
+      top: 64px;
+      left: var(--s-4);
+      right: var(--s-4);
+      min-width: 0;
+      max-width: none;
+    }
+  }
+
+  .search__filters {
+    display: flex;
+    gap: var(--s-2);
+    flex-wrap: wrap;
+    margin-bottom: var(--s-4);
+    padding-bottom: var(--s-3);
+    border-bottom: 1px solid var(--c-rule-soft);
+  }
+  .search__chip {
+    font-family: var(--f-body);
+    font-size: var(--t-xs);
+    letter-spacing: var(--tr-eyebrow);
+    text-transform: uppercase;
+    color: var(--c-ink-mute);
+    background: transparent;
+    border: 1px solid var(--c-rule);
+    padding: 0.3em 0.7em;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: all var(--dur-fast) var(--ease-out);
+  }
+  .search__chip:hover { color: var(--c-ink); border-color: var(--c-ink-mute); }
+  .search__chip.is-active {
+    color: var(--c-paper);
+    background: var(--c-ink);
+    border-color: var(--c-ink);
+  }
+
+  .search__status {
+    color: var(--c-ink-mute);
+    margin-bottom: var(--s-3);
+  }
+
+  .search__results {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .search__results li { padding: 0; margin: 0; }
+  .search__result {
+    display: block;
+    padding: var(--s-3) 0;
+    color: var(--c-ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--c-rule-soft);
+    transition: padding-left var(--dur-fast) var(--ease-out);
+  }
+  .search__result:hover { padding-left: var(--s-2); }
+  .search__result:last-child { border-bottom: 0; }
+  .search__result-meta {
+    font-family: var(--f-body);
+    font-size: var(--t-xs);
+    letter-spacing: var(--tr-eyebrow);
+    text-transform: uppercase;
+    color: var(--c-bark-deep);
+    margin-bottom: var(--s-1);
+  }
+  .search__result-title {
+    font-family: var(--f-display);
+    font-size: var(--t-md);
+    color: var(--c-ink-soft);
+    line-height: var(--ld-snug);
+    margin: 0;
+    font-weight: 400;
+  }
+  .search__result-excerpt {
+    font-size: var(--t-sm);
+    color: var(--c-ink-mute);
+    line-height: var(--ld-snug);
+    margin-top: var(--s-1);
+  }
+  .search__result-excerpt mark {
+    background: color-mix(in srgb, var(--c-moss) 30%, var(--c-paper) 70%);
+    color: var(--c-ink);
+    padding: 0 0.1em;
+    border-radius: 1px;
+  }
+</style>
+
+<script>
+  // @ts-nocheck — Pagefind types ship at runtime
+  type PagefindResult = {
+    url: string;
+    raw_url?: string;
+    meta: { title: string; [k: string]: any };
+    excerpt: string;
+    filters?: Record<string, string[]>;
+  };
+
+  const root      = document.getElementById('search-root')!;
+  const input     = document.getElementById('search-input') as HTMLInputElement;
+  const panel     = document.getElementById('search-panel')!;
+  const status    = document.getElementById('search-status')!;
+  const resultsEl = document.getElementById('search-results')!;
+  const filterEls = root.querySelectorAll<HTMLButtonElement>('[data-filter]');
+
+  let pagefind: any = null;
+  let activeFilter = '';
+  let lastQuery = '';
+  let debounceTimer: number | undefined;
+
+  async function ensurePagefind() {
+    if (pagefind) return pagefind;
+    try {
+      // Hide the import path from Vite's static analyzer by storing
+      // it in a variable. The file is served from /pagefind/ at runtime
+      // (created by `pagefind --site dist` after the Astro build).
+      const pagefindUrl = '/pagefind/pagefind.js';
+      pagefind = await import(/* @vite-ignore */ pagefindUrl);
+      await pagefind.options({ excerptLength: 30 });
+      await pagefind.init();
+    } catch (e) {
+      pagefind = { failed: true };
+      status.textContent = 'Search index not available yet — try after the next deploy.';
+    }
+    return pagefind;
+  }
+
+  function openPanel() { panel.hidden = false; }
+  function closePanel() { panel.hidden = true; }
+
+  function setStatus(text: string) { status.textContent = text; }
+
+  function deriveSection(url: string): string {
+    if (url.startsWith('/repository') || url.includes('/repository/')) return 'Repository';
+    if (url.startsWith('/sanguine/peptides'))   return 'Peptides';
+    if (url.startsWith('/sanguine/nootropics')) return 'Nootropics';
+    if (url.startsWith('/sanguine'))            return 'Sanguine';
+    return 'Site';
+  }
+
+  function matchesFilter(url: string, filter: string): boolean {
+    if (!filter) return true;
+    if (filter === 'repository') return url.startsWith('/repository');
+    if (filter === 'peptides')   return url.startsWith('/sanguine/peptides');
+    if (filter === 'nootropics') return url.startsWith('/sanguine/nootropics');
+    return true;
+  }
+
+  async function runSearch(q: string) {
+    lastQuery = q;
+    if (!q.trim()) {
+      resultsEl.innerHTML = '';
+      setStatus('Type to search.');
+      return;
+    }
+
+    const pf = await ensurePagefind();
+    if (pf.failed) return;
+
+    setStatus('Searching…');
+    const search = await pf.search(q);
+    if (q !== lastQuery) return; // a newer query started
+
+    const all = await Promise.all(search.results.map((r: any) => r.data()));
+    const filtered = all.filter((r: PagefindResult) => matchesFilter(r.url, activeFilter));
+
+    if (filtered.length === 0) {
+      resultsEl.innerHTML = '';
+      setStatus(`No results for "${q}".`);
+      return;
+    }
+
+    setStatus(`${filtered.length} result${filtered.length === 1 ? '' : 's'}`);
+    resultsEl.innerHTML = filtered.slice(0, 12).map((r: PagefindResult) => `
+      <li>
+        <a class="search__result" href="${r.url}">
+          <div class="search__result-meta">${deriveSection(r.url)}</div>
+          <div class="search__result-title">${escapeHtml(r.meta.title || r.url)}</div>
+          <div class="search__result-excerpt">${r.excerpt}</div>
+        </a>
+      </li>
+    `).join('');
+  }
+
+  function escapeHtml(s: string) {
+    return s.replace(/[&<>"']/g, (c) => (
+      { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!
+    ));
+  }
+
+  // ---- wire up events ----
+  input.addEventListener('focus', () => { ensurePagefind(); openPanel(); });
+  input.addEventListener('input', () => {
+    openPanel();
+    window.clearTimeout(debounceTimer);
+    debounceTimer = window.setTimeout(() => runSearch(input.value), 120);
+  });
+
+  filterEls.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterEls.forEach((b) => { b.classList.remove('is-active'); b.setAttribute('aria-selected', 'false'); });
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-selected', 'true');
+      activeFilter = btn.getAttribute('data-filter') || '';
+      runSearch(input.value);
+    });
+  });
+
+  // Cmd/Ctrl+K to focus
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      input.focus();
+      input.select();
+    }
+    if (e.key === 'Escape' && document.activeElement === input) {
+      input.blur();
+      closePanel();
+    }
+  });
+
+  // Click outside to close
+  document.addEventListener('click', (e) => {
+    if (!root.contains(e.target as Node)) closePanel();
+  });
+</script>

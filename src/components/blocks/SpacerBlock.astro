@@ -1,0 +1,12 @@
+---
+interface Props { size?: 'sm' | 'md' | 'lg' | 'xl'; }
+const { size = 'md' } = Astro.props;
+---
+<div class:list={['block-spacer', `is-${size}`]} aria-hidden="true"></div>
+
+<style>
+  .block-spacer.is-sm { height: var(--s-4); }
+  .block-spacer.is-md { height: var(--s-8); }
+  .block-spacer.is-lg { height: var(--s-12); }
+  .block-spacer.is-xl { height: var(--s-16); }
+</style>
