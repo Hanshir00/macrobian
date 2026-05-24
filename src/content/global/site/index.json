@@ -1,0 +1,23 @@
+{
+  "nav": [
+    {
+      "label": "Repository",
+      "href": "/repository"
+    },
+    {
+      "label": "Sanguine",
+      "href": "/sanguine"
+    },
+    {
+      "label": "Presentations",
+      "href": "/presentations"
+    }
+  ],
+  "bannerEnabled": false,
+  "bannerText": "",
+  "bannerLink": "",
+  "footerNav": [],
+  "footerNote": "",
+  "notFoundTitle": "Page not found",
+  "notFoundMessage": "The page you are looking for has moved or never existed. Return home and start again."
+}

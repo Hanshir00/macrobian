@@ -1,0 +1,40 @@
+---
+interface Props { text: string; attribution?: string; }
+const { text, attribution } = Astro.props;
+---
+
+<section class="block-quote">
+  <div class="container container--prose">
+    <blockquote class="block-quote__inner">
+      <p class="block-quote__text">{text}</p>
+      {attribution && <cite class="block-quote__cite">— {attribution}</cite>}
+    </blockquote>
+  </div>
+</section>
+
+<style>
+  .block-quote { padding-block: var(--s-8); }
+  .block-quote__inner {
+    border-inline-start: 2px solid var(--c-moss);
+    padding: var(--s-3) 0 var(--s-3) var(--s-6);
+    margin: 0;
+  }
+  .block-quote__text {
+    font-family: var(--f-display);
+    font-style: italic;
+    font-size: clamp(var(--t-lg), 3vw, var(--t-2xl));
+    line-height: var(--ld-snug);
+    color: var(--c-ink-soft);
+    font-variation-settings: 'opsz' 96;
+    margin: 0;
+  }
+  .block-quote__cite {
+    display: block;
+    margin-top: var(--s-4);
+    font-style: normal;
+    font-size: var(--t-xs);
+    letter-spacing: var(--tr-eyebrow);
+    text-transform: uppercase;
+    color: var(--c-ink-mute);
+  }
+</style>

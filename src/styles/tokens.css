@@ -1,0 +1,132 @@
+/* ============================================================
+   Sanguine — Design Tokens
+   ------------------------------------------------------------
+   These are FALLBACK values. The Theme Settings singleton in
+   Keystatic overrides the named "control surface" variables
+   below at build time (see Base.astro), and downstream variables
+   compute from them via color-mix and calc().
+
+   Edit here for hard-coded defaults; edit in /keystatic for
+   live theme adjustments.
+   ============================================================ */
+
+:root {
+  /* ---- Theme control surface (overridden by Theme Settings) ---- */
+  --c-paper: #F5EFE4;
+  --c-ink:   #1F1D17;
+  --c-moss:  #7A8B6E;
+  --c-bark:  #7B5E40;
+  --c-rule:  #D4C9B3;
+
+  --f-display: 'Fraunces', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --f-body:    'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --f-mono:    'JetBrains Mono', 'Courier New', monospace;
+  --f-arabic:  'Noto Sans Arabic', 'Segoe UI', sans-serif;
+
+  /* root font size — scales the whole rem-based type system */
+  --root-font-size: 16px;
+
+  /* text weights (heading weight is only set when the user overrides it) */
+  --weight-body: 400;
+
+  /* density scale, multiplied into spacing values below */
+  --density-scale: 1;
+
+  /* ---- Computed depth variants ---- */
+  --c-paper-deep:  color-mix(in srgb, var(--c-paper) 92%, var(--c-ink) 8%);
+  --c-paper-edge:  color-mix(in srgb, var(--c-paper) 84%, var(--c-ink) 16%);
+  --c-rule-soft:   color-mix(in srgb, var(--c-rule) 50%, var(--c-paper) 50%);
+
+  --c-ink-soft:    color-mix(in srgb, var(--c-ink) 88%, var(--c-paper) 12%);
+  --c-ink-mute:    color-mix(in srgb, var(--c-ink) 56%, var(--c-paper) 44%);
+
+  --c-moss-deep:   color-mix(in srgb, var(--c-moss) 60%, var(--c-ink) 40%);
+  --c-bark-deep:   color-mix(in srgb, var(--c-bark) 55%, var(--c-ink) 45%);
+  --c-clay:        color-mix(in srgb, var(--c-bark) 80%, var(--c-paper) 20%);
+
+  /* ---- Semantic mapping ---- */
+  --c-bg:          var(--c-paper);
+  --c-surface:     var(--c-paper-deep);
+  --c-text:        var(--c-ink);
+  --c-text-muted:  var(--c-ink-mute);
+  --c-accent:      var(--c-moss-deep);
+  --c-accent-soft: var(--c-moss);
+  --c-link:        var(--c-bark-deep);
+  --c-link-hover:  var(--c-ink);
+  --c-focus:       var(--c-moss-deep);
+
+  /* ---- Typography scale ---- */
+  --t-xs:   0.75rem;
+  --t-sm:   0.875rem;
+  --t-base: 1rem;
+  --t-md:   1.125rem;
+  --t-lg:   1.375rem;
+  --t-xl:   1.75rem;
+  --t-2xl:  2.25rem;
+  --t-3xl:  3rem;
+  --t-4xl:  4rem;
+  --t-5xl:  5.5rem;
+  --t-6xl:  7.5rem;
+
+  --tr-tight:   -0.02em;
+  --tr-snug:    -0.01em;
+  --tr-normal:  0;
+  --tr-wide:    0.04em;
+  --tr-eyebrow: 0.18em;
+
+  --ld-tight:   1.05;
+  --ld-snug:    1.2;
+  --ld-normal:  1.55;
+  --ld-relaxed: 1.7;
+
+  /* ---- Spacing — scaled by density ---- */
+  --s-1:  calc(0.25rem * var(--density-scale));
+  --s-2:  calc(0.5rem  * var(--density-scale));
+  --s-3:  calc(0.75rem * var(--density-scale));
+  --s-4:  calc(1rem    * var(--density-scale));
+  --s-5:  calc(1.5rem  * var(--density-scale));
+  --s-6:  calc(2rem    * var(--density-scale));
+  --s-8:  calc(3rem    * var(--density-scale));
+  --s-10: calc(4rem    * var(--density-scale));
+  --s-12: calc(6rem    * var(--density-scale));
+  --s-16: calc(8rem    * var(--density-scale));
+  --s-20: calc(12rem   * var(--density-scale));
+
+  /* ---- Layout ---- */
+  --container-max:    1280px;
+  --container-narrow: 720px;
+  --container-prose:  640px;
+
+  /* ---- Borders & Radii ---- */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --border-w:  1px;
+
+  /* ---- Shadows ---- */
+  --shadow-sm: 0 1px 2px  rgba(31, 29, 23, 0.04);
+  --shadow-md: 0 4px 16px rgba(31, 29, 23, 0.06);
+  --shadow-lg: 0 12px 40px rgba(31, 29, 23, 0.08);
+
+  /* ---- Motion ---- */
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 180ms;
+  --dur-med:  320ms;
+  --dur-slow: 600ms;
+}
+
+/* Density presets */
+:root[data-density="compact"]  { --density-scale: 0.85; }
+:root[data-density="normal"]   { --density-scale: 1; }
+:root[data-density="spacious"] { --density-scale: 1.2; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,109 @@
+---
+export const prerender = true;
+
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const topics = await getCollection('repoTopics');
+const links = await getCollection('repoLinks');
+
+const sortedTopics = topics.sort((a, b) => {
+  const oa = a.data.order ?? 999;
+  const ob = b.data.order ?? 999;
+  if (oa !== ob) return oa - ob;
+  return a.data.name.localeCompare(b.data.name);
+});
+
+const countsByTopic = links.reduce<Record<string, number>>((acc, link) => {
+  acc[link.data.topic] = (acc[link.data.topic] ?? 0) + 1;
+  return acc;
+}, {});
+---
+
+<Base title="Repository" description="A personal repository of literature, studies, and books.">
+  <div class="container container--narrow" data-pagefind-body data-pagefind-meta="title:Repository">
+    <header class="page-head">
+      <span class="eyebrow page-head__eyebrow">Repository</span>
+      <h1 class="page-head__title">A working library.</h1>
+      <p class="page-head__desc">An ongoing archive of literature, studies, and books. Organized by topic, expanded over time.</p>
+    </header>
+
+    {sortedTopics.length === 0 ? (
+      <p class="empty" data-pagefind-ignore>No topics yet. Add the first one in <a href="/keystatic">the editor</a>.</p>
+    ) : (
+      <ul class="topic-list">
+        {sortedTopics.map((topic) => (
+          <li>
+            <a href={`/repository/${topic.data.slug}`} class="topic-card">
+              <div class="topic-card__head">
+                <h2 class="topic-card__name">{topic.data.name}</h2>
+                <span class="topic-card__count eyebrow">
+                  {countsByTopic[topic.data.slug] ?? 0} entries
+                </span>
+              </div>
+              {topic.data.description && (
+                <p class="topic-card__desc">{topic.data.description}</p>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</Base>
+
+<style>
+  .page-head { padding-block: var(--s-12) var(--s-10); max-width: 38rem; }
+  .page-head__eyebrow { color: var(--c-bark-deep); margin-bottom: var(--s-5); display: block; }
+  .page-head__title {
+    font-family: var(--f-display);
+    font-size: clamp(var(--t-3xl), 6vw, var(--t-4xl));
+    line-height: var(--ld-tight);
+    letter-spacing: var(--tr-tight);
+    color: var(--c-ink-soft);
+    font-variation-settings: 'opsz' 144;
+    margin: 0;
+  }
+  .page-head__desc {
+    margin-top: var(--s-5);
+    font-size: var(--t-md);
+    line-height: var(--ld-relaxed);
+    color: var(--c-ink-mute);
+    max-width: 50ch;
+  }
+
+  .topic-list { list-style: none; margin: 0; padding: 0; }
+  .topic-card {
+    display: block;
+    padding: var(--s-6) 0;
+    border-top: 1px solid var(--c-rule);
+    color: var(--c-ink);
+    text-decoration: none;
+    transition: padding-inline-start var(--dur-fast) var(--ease-out);
+  }
+  .topic-list li:last-child .topic-card { border-bottom: 1px solid var(--c-rule); }
+  .topic-card:hover { padding-inline-start: var(--s-3); }
+
+  .topic-card__head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: var(--s-4); flex-wrap: wrap;
+  }
+  .topic-card__name {
+    font-family: var(--f-display);
+    font-size: clamp(var(--t-xl), 3.5vw, var(--t-2xl));
+    font-weight: 400;
+    color: var(--c-ink-soft);
+    letter-spacing: var(--tr-tight);
+    font-variation-settings: 'opsz' 144;
+    margin: 0;
+  }
+  .topic-card__count { color: var(--c-ink-mute); font-size: var(--t-xs); }
+  .topic-card__desc {
+    margin-top: var(--s-3);
+    font-size: var(--t-sm);
+    color: var(--c-ink-mute);
+    line-height: var(--ld-relaxed);
+    max-width: 60ch;
+  }
+  .empty { padding: var(--s-8) 0; color: var(--c-ink-mute); font-size: var(--t-sm); }
+</style>

@@ -1,0 +1,25 @@
+---
+interface Props { text: string; }
+const { text } = Astro.props;
+---
+
+<section class="block-disclaimer">
+  <div class="container container--narrow">
+    <p class="block-disclaimer__text">{text}</p>
+  </div>
+</section>
+
+<style>
+  .block-disclaimer { padding-block: var(--s-6); }
+  .block-disclaimer__text {
+    padding: var(--s-5);
+    border: 1px solid var(--c-rule);
+    border-radius: var(--radius-md);
+    background: var(--c-paper-deep);
+    font-size: var(--t-sm);
+    color: var(--c-ink-mute);
+    line-height: var(--ld-relaxed);
+    font-style: italic;
+    margin: 0;
+  }
+</style>

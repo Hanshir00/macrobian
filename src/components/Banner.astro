@@ -1,0 +1,49 @@
+---
+import { getSiteGlobal } from '../config/global';
+const site = getSiteGlobal();
+const show = site.bannerEnabled && site.bannerText.trim().length > 0;
+const hasLink = show && site.bannerLink.trim().length > 0;
+---
+
+{show && (
+  <div class="banner">
+    {hasLink ? (
+      <a class="banner__inner" href={site.bannerLink}>
+        <span class="banner__text">{site.bannerText}</span>
+        <span class="banner__cue" aria-hidden="true">→</span>
+      </a>
+    ) : (
+      <div class="banner__inner banner__inner--static">
+        <span class="banner__text">{site.bannerText}</span>
+      </div>
+    )}
+  </div>
+)}
+
+<style>
+  .banner {
+    background: var(--c-ink);
+    color: var(--c-paper);
+  }
+  .banner__inner {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding: var(--s-2) var(--s-6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-3);
+    color: var(--c-paper);
+    text-decoration: none;
+    min-height: 36px;
+  }
+  .banner__text {
+    font-family: var(--f-body);
+    font-size: var(--t-xs);
+    letter-spacing: var(--tr-wide);
+    text-align: center;
+  }
+  .banner__cue { transition: transform var(--dur-fast) var(--ease-out); }
+  a.banner__inner:hover .banner__cue { transform: translateX(3px); }
+  a.banner__inner:hover .banner__text { text-decoration: underline; text-underline-offset: 0.2em; }
+</style>
