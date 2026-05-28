@@ -3,20 +3,12 @@
   "brandVersion": "V.01",
   "nav": [
     {
-      "label": "PRODUCT",
-      "href": "https://sanguinebio.netlify.app/page-1/"
+      "label": "Products",
+      "href": "https://sanguinebio.netlify.app/products"
     },
     {
-      "label": "SCIENCE",
-      "href": "#"
-    },
-    {
-      "label": "METHOD",
-      "href": "#"
-    },
-    {
-      "label": "ACCESS",
-      "href": "#"
+      "label": "Repository",
+      "href": "https://sanguinebio.netlify.app/repository"
     }
   ],
   "railAperture": "APERTURE · C",
