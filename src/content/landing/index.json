@@ -2,10 +2,22 @@
   "brandName": "SANGUINE",
   "brandVersion": "V.01",
   "nav": [
-    { "label": "PRODUCT", "href": "#" },
-    { "label": "SCIENCE", "href": "#" },
-    { "label": "METHOD", "href": "#" },
-    { "label": "ACCESS", "href": "#" }
+    {
+      "label": "PRODUCT",
+      "href": "#"
+    },
+    {
+      "label": "SCIENCE",
+      "href": "#"
+    },
+    {
+      "label": "METHOD",
+      "href": "#"
+    },
+    {
+      "label": "ACCESS",
+      "href": "#"
+    }
   ],
   "railAperture": "APERTURE · C",
   "railDiameter": "Ø 412 MM",
@@ -16,7 +28,7 @@
   "eyebrowLeft": "A HEALTH INSTRUMENT",
   "eyebrowRight": "BUILT FOR CLINICIANS",
   "title": "Sanguine",
-  "description": "Continuous vital-sign measurement, reduced to the few numbers that decide care. No noise, no dashboards — a calibrated instrument for the people reading the body.",
+  "description": "ehhhh wheres the gabagool ",
   "primaryLabel": "REQUEST ACCESS",
   "primaryHref": "#",
   "secondaryLabel": "READ THE METHOD",
