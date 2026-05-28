@@ -2,10 +2,22 @@
   "brandName": "SANGUINE",
   "brandVersion": "V.01",
   "nav": [
-    { "label": "PRODUCT", "href": "#" },
-    { "label": "SCIENCE", "href": "#" },
-    { "label": "METHOD", "href": "#" },
-    { "label": "ACCESS", "href": "#" }
+    {
+      "label": "PRODUCT",
+      "href": "https://sanguinebio.netlify.app/page-1/"
+    },
+    {
+      "label": "SCIENCE",
+      "href": "#"
+    },
+    {
+      "label": "METHOD",
+      "href": "#"
+    },
+    {
+      "label": "ACCESS",
+      "href": "#"
+    }
   ],
   "railAperture": "APERTURE · C",
   "railDiameter": "Ø 412 MM",
