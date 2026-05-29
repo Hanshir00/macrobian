@@ -1,0 +1,27 @@
+{
+  "name": "sanguine",
+  "type": "module",
+  "version": "0.3.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/markdoc": "^0.13.4",
+    "@astrojs/netlify": "^6.2.6",
+    "@astrojs/react": "^4.2.1",
+    "@keystatic/astro": "^5.0.5",
+    "@keystatic/core": "^0.5.46",
+    "astro": "^5.1.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1"
+  }
+}
