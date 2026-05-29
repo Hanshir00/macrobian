@@ -1,0 +1,330 @@
+/**
+ * Sanguine — Keystatic config (bare-bones landing).
+ * One singleton: the landing page. Everything on the page is editable here.
+ */
+import { config, fields, singleton, collection } from '@keystatic/core';
+import { wrapper, block, repeating } from '@keystatic/core/content-components';
+
+const storage = import.meta.env.DEV
+  ? ({ kind: 'local' } as const)
+  : ({ kind: 'cloud' } as const);
+
+export default config({
+  storage,
+  cloud: { project: 'sanguinebio/sanguine' },
+
+  ui: {
+    brand: { name: 'Sanguine' },
+    navigation: {
+      'Site': ['landing'],
+      'Pages': ['pages'],
+      'Examples': ['library'],
+    },
+  },
+
+  collections: {
+    pages: collection({
+      label: 'Pages',
+      slugField: 'title',
+      path: 'src/content/pages/*',
+      format: { contentField: 'body' },
+      columns: ['title'],
+      entryLayout: 'content',
+      // PREVIEW: each page renders at /<slug> (see src/pages/[...slug].astro),
+      // so the Admin "preview" link opens that live page. {slug} is filled in
+      // by Keystatic from the entry's slug.
+      previewUrl: '/{slug}',
+      schema: {
+        title: fields.slug({
+          name: { label: 'Page title', validation: { isRequired: true } },
+          slug: {
+            label: 'URL slug',
+            description: 'The page will live at /<slug> — e.g. "method" → /method.',
+          },
+        }),
+        intro: fields.text({
+          label: 'Intro / subtitle',
+          description: 'Optional line shown under the title.',
+          multiline: true,
+        }),
+        body: fields.markdoc({
+          label: 'Body',
+          components: {
+            /* 1. Callout — info/tip/warning box wrapping rich text */
+            callout: wrapper({
+              label: 'Callout',
+              description: 'A highlighted note box.',
+              schema: {
+                tone: fields.select({
+                  label: 'Tone',
+                  options: [
+                    { label: 'Info',    value: 'info' },
+                    { label: 'Tip',     value: 'tip' },
+                    { label: 'Warning', value: 'warning' },
+                  ],
+                  defaultValue: 'info',
+                }),
+                title: fields.text({ label: 'Title (optional)' }),
+              },
+            }),
+
+            /* 2. Pull quote — large styled blockquote with attribution */
+            pullQuote: wrapper({
+              label: 'Pull quote',
+              description: 'A large styled quote. Write the quote inside.',
+              schema: {
+                attribution: fields.text({ label: 'Attribution (optional)' }),
+              },
+            }),
+
+            /* 3. Figure — uploaded image with caption */
+            figure: block({
+              label: 'Figure',
+              description: 'An image with a caption.',
+              schema: {
+                image: fields.image({
+                  label: 'Image',
+                  directory: 'public/images/figures',
+                  publicPath: '/images/figures/',
+                  validation: { isRequired: true },
+                }),
+                alt:     fields.text({ label: 'Alt text (for accessibility)' }),
+                caption: fields.text({ label: 'Caption', multiline: true }),
+              },
+            }),
+
+            /* 4. Video embed — YouTube or Vimeo URL → in-page player */
+            video: block({
+              label: 'Video embed',
+              description: 'Paste a YouTube or Vimeo URL.',
+              schema: {
+                url:   fields.text({ label: 'URL', description: 'YouTube or Vimeo link.', validation: { isRequired: true } }),
+                title: fields.text({ label: 'Title (for accessibility)' }),
+              },
+            }),
+
+            /* 5. Citation — a structured reference card */
+            citation: block({
+              label: 'Citation',
+              description: 'A formatted reference.',
+              schema: {
+                authors: fields.text({ label: 'Authors' }),
+                title:   fields.text({ label: 'Title' }),
+                source:  fields.text({ label: 'Journal / source' }),
+                year:    fields.text({ label: 'Year' }),
+                url:     fields.text({ label: 'URL (optional)' }),
+              },
+            }),
+
+            /* 6. Stats band — a row of big numbers (insert 'stat' items inside) */
+            statsBand: repeating({
+              label: 'Stats band',
+              description: 'A row of big numbers. Insert "Stat" items inside.',
+              children: ['stat'],
+              schema: {},
+            }),
+            stat: block({
+              label: 'Stat',
+              description: 'One stat (big value + small label).',
+              schema: {
+                value: fields.text({ label: 'Value (big number)', validation: { isRequired: true } }),
+                label: fields.text({ label: 'Label', validation: { isRequired: true } }),
+              },
+            }),
+
+            /* 7. Card grid — small cards (insert 'card' items inside) */
+            cardGrid: repeating({
+              label: 'Card grid',
+              description: 'Small cards for further reading. Insert "Card" items inside.',
+              children: ['card'],
+              schema: {},
+            }),
+            card: block({
+              label: 'Card',
+              description: 'A small card with a title, one-line description, and link.',
+              schema: {
+                title:       fields.text({ label: 'Title',       validation: { isRequired: true } }),
+                description: fields.text({ label: 'Description', multiline: true }),
+                href:        fields.text({ label: 'Link',        validation: { isRequired: true } }),
+              },
+            }),
+
+            /* 8. Interactive tool — embed a self-contained .html file
+             *    (e.g. a calculator) from public/tools via a responsive iframe. */
+            tool: block({
+              label: 'Interactive tool (HTML embed)',
+              description: 'Embed a self-contained .html tool from /public/tools.',
+              schema: {
+                src: fields.text({
+                  label: 'Source path',
+                  description: 'Path under /public, e.g. /tools/peptide-calculator/ (keep the trailing slash).',
+                  validation: { isRequired: true },
+                }),
+                title: fields.text({
+                  label: 'Title (for accessibility)',
+                  defaultValue: 'Interactive tool',
+                }),
+                minHeight: fields.integer({
+                  label: 'Minimum height (px)',
+                  description: 'Fallback height before/if the content can\u2019t be measured.',
+                  defaultValue: 320,
+                }),
+              },
+            }),
+          },
+        }),
+      },
+    }),
+
+    /* ──────────────────────────────────────────────────────────────────
+     * EXAMPLE collection — a working REFERENCE, not your real structure.
+     * It shows the three things you wanted to learn:
+     *   1. a Collection      → many entries of one shape
+     *   2. a relationship    → links one entry to others
+     *   3. a file field      → PDF upload
+     * Study it, copy the parts you want into your own collections, then
+     * delete this whole block. Nothing else in the project depends on it.
+     * (If you later wire it to the front end, you'd also add a matching
+     *  entry in src/content.config.ts + a route under src/pages/.)
+     * ────────────────────────────────────────────────────────────────── */
+    library: collection({
+      label: 'Library (example)',
+      slugField: 'title',
+      path: 'src/content/library/*',
+      format: { contentField: 'body' },
+      columns: ['title'],
+      entryLayout: 'content',
+      // PREVIEW is left OFF here on purpose: there's no front-end route that
+      // renders a library entry yet, so there'd be nothing to open. Once you
+      // create one (e.g. src/pages/library/[...slug].astro), uncomment:
+      // previewUrl: '/library/{slug}',
+      schema: {
+        title: fields.slug({
+          name: { label: 'Title', validation: { isRequired: true } },
+        }),
+        summary: fields.text({ label: 'Summary', multiline: true }),
+
+        /* FILE FIELD — uploads a PDF into public/files/library/<slug>/ and
+         * stores just the filename in the entry's data. On the front end you
+         * build the URL as `/files/library/<entry-slug>/<stored-filename>`. */
+        pdf: fields.file({
+          label: 'PDF',
+          description: 'Optional PDF attachment (e.g. a research paper).',
+          directory: 'public/files/library',
+          publicPath: '/files/library/',
+        }),
+
+        /* RELATIONSHIP — links this entry to one or more existing Pages.
+         * Wrapping it in fields.array() makes it one-to-many. It stores the
+         * TARGET'S SLUG only, so if you rename that slug later the link
+         * breaks — keep slugs stable. Point `collection` at any collection
+         * key, including 'library' itself for entry-to-entry links. */
+        relatedPages: fields.array(
+          fields.relationship({ label: 'Related page', collection: 'pages' }),
+          { label: 'Related pages', itemLabel: (p) => p.value ?? 'Select a page' },
+        ),
+
+        body: fields.markdoc({ label: 'Body' }),
+      },
+    }),
+  },
+
+  singletons: {
+    landing: singleton({
+      label: 'Landing Page',
+      path: 'src/content/landing/',
+      format: { data: 'json' },
+      // PREVIEW: the landing renders at the site root, so preview opens "/".
+      previewUrl: '/',
+      schema: {
+        /* ---- Top bar ---- */
+        brandName:    fields.text({ label: 'Brand name', defaultValue: 'SANGUINE' }),
+        brandVersion: fields.text({ label: 'Brand version tag', defaultValue: 'V.01' }),
+        nav: fields.array(
+          fields.object({
+            label: fields.text({ label: 'Label', validation: { isRequired: true } }),
+            href:  fields.text({ label: 'Link', defaultValue: '#' }),
+          }),
+          { label: 'Top navigation', itemLabel: (p) => p.fields.label.value || 'Item' },
+        ),
+
+        /* ---- Left rail (technical readout) ---- */
+        railAperture:  fields.text({ label: 'Rail — aperture label', defaultValue: 'APERTURE · C' }),
+        railDiameter:  fields.text({ label: 'Rail — diameter', defaultValue: 'Ø 412 MM' }),
+        railTolerance: fields.text({ label: 'Rail — tolerance', defaultValue: '±0.02' }),
+        railRev:       fields.text({ label: 'Rail — revision', defaultValue: 'REV 04' }),
+
+        /* ---- Red spine ---- */
+        spineText:   fields.text({ label: 'Spine text (vertical)', defaultValue: 'SANGUINE · SYSTEM 01 · BUILD 24.05' }),
+        spineNumber: fields.text({ label: 'Spine number', defaultValue: '04' }),
+
+        /* ---- Hero ---- */
+        eyebrowLeft:  fields.text({ label: 'Eyebrow — left', defaultValue: 'A HEALTH INSTRUMENT' }),
+        eyebrowRight: fields.text({ label: 'Eyebrow — right', defaultValue: 'BUILT FOR CLINICIANS' }),
+        title:        fields.text({ label: 'Title (large wordmark)', defaultValue: 'Sanguine' }),
+        description:  fields.text({
+          label: 'Description',
+          multiline: true,
+          defaultValue:
+            'Continuous vital-sign measurement, reduced to the few numbers that decide care. No noise, no dashboards — a calibrated instrument for the people reading the body.',
+        }),
+        primaryLabel:   fields.text({ label: 'Primary button — label', defaultValue: 'REQUEST ACCESS' }),
+        primaryHref:    fields.text({ label: 'Primary button — link', defaultValue: '#' }),
+        secondaryLabel: fields.text({ label: 'Secondary link — label', defaultValue: 'READ THE METHOD' }),
+        secondaryHref:  fields.text({ label: 'Secondary link — link', defaultValue: '#' }),
+
+        /* ---- Footer plate ---- */
+        footerLeft:   fields.text({ label: 'Footer — left', defaultValue: 'APERTURE · C' }),
+        footerCenter: fields.text({ label: 'Footer — center', defaultValue: 'PLATE 03 / 04 · 2026-05-28' }),
+        footerRight:  fields.text({ label: 'Footer — right', defaultValue: 'BERLIN / NYC' }),
+
+        /* ---- Theme (colors + fonts) ---- */
+        theme: fields.object(
+          {
+            colorBgLight: fields.text({ label: 'Background — light corner', defaultValue: '#EEECE8' }),
+            colorBgDark:  fields.text({ label: 'Background — dark corner', defaultValue: '#D5D2CB' }),
+            colorInk:     fields.text({ label: 'Ink (text)', defaultValue: '#171716' }),
+            colorMuted:   fields.text({ label: 'Muted (labels)', defaultValue: '#8C8C86' }),
+            colorAccent:  fields.text({ label: 'Accent (the red)', defaultValue: '#DA3A2C' }),
+            fontDisplay: fields.select({
+              label: 'Display font (wordmark + body)',
+              options: [
+                { label: 'Inter',          value: 'Inter' },
+                { label: 'Archivo',        value: 'Archivo' },
+                { label: 'Hanken Grotesk', value: 'Hanken+Grotesk' },
+                { label: 'Schibsted Grotesk', value: 'Schibsted+Grotesk' },
+                { label: 'Figtree',        value: 'Figtree' },
+                { label: 'Manrope',        value: 'Manrope' },
+              ],
+              defaultValue: 'Inter',
+            }),
+            fontMono: fields.select({
+              label: 'Mono font (technical labels)',
+              options: [
+                { label: 'JetBrains Mono', value: 'JetBrains+Mono' },
+                { label: 'Space Mono',     value: 'Space+Mono' },
+                { label: 'IBM Plex Mono',  value: 'IBM+Plex+Mono' },
+                { label: 'DM Mono',        value: 'DM+Mono' },
+                { label: 'Martian Mono',   value: 'Martian+Mono' },
+              ],
+              defaultValue: 'JetBrains+Mono',
+            }),
+            typeScale: fields.select({
+              label: 'Text size (whole page)',
+              description: 'Scales all landing text proportionally. Default matches the original sizing.',
+              options: [
+                { label: 'Extra small', value: '0.85' },
+                { label: 'Small',       value: '0.92' },
+                { label: 'Default',     value: '1' },
+                { label: 'Large',       value: '1.1' },
+                { label: 'Extra large', value: '1.2' },
+              ],
+              defaultValue: '1',
+            }),
+          },
+          { label: 'Theme (colors, fonts & text size)' },
+        ),
+      },
+    }),
+  },
+});
