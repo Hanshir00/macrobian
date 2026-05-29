@@ -1,0 +1,298 @@
+---
+/**
+ * Site-wide search powered by Pagefind.
+ *
+ * Renders a small "SEARCH ⌘K" trigger that opens a modal with live results.
+ * The Pagefind index is generated at build time (see package.json build script)
+ * and served from /pagefind/. In dev (no build), search returns a friendly
+ * "available after deploy" message instead of crashing.
+ */
+---
+
+<button class="search-trigger" type="button" data-search-open aria-label="Open search">
+  <svg class="search-trigger__icon" viewBox="0 0 16 16" aria-hidden="true">
+    <circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.4" />
+    <line x1="11" y1="11" x2="14.5" y2="14.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+  </svg>
+  <span class="search-trigger__label">SEARCH</span>
+  <kbd class="search-trigger__kbd" aria-hidden="true">⌘K</kbd>
+</button>
+
+<div class="search-modal" data-search-modal hidden aria-hidden="true" role="dialog" aria-label="Search the site">
+  <div class="search-modal__backdrop" data-search-close></div>
+  <div class="search-modal__panel">
+    <div class="search-modal__accent" aria-hidden="true"></div>
+    <div class="search-modal__head">
+      <svg viewBox="0 0 16 16" aria-hidden="true" class="search-modal__icon">
+        <circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.4" />
+        <line x1="11" y1="11" x2="14.5" y2="14.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+      </svg>
+      <input
+        type="search"
+        class="search-modal__input"
+        placeholder="Search the site…"
+        autocomplete="off"
+        spellcheck="false"
+        data-search-input
+      />
+      <button type="button" class="search-modal__close" data-search-close aria-label="Close search">ESC</button>
+    </div>
+    <ul class="search-modal__results" data-search-results></ul>
+    <p class="search-modal__hint" data-search-hint>Type to search.</p>
+  </div>
+</div>
+
+<script>
+  // Lazy-loaded Pagefind instance.
+  let pf: any = null;
+  let pfError = false;
+
+  async function loadPagefind() {
+    if (pf || pfError) return pf;
+    try {
+      // @ts-ignore - dynamic, generated at build by pagefind
+      pf = await import(/* @vite-ignore */ '/pagefind/pagefind.js');
+      await pf.options({ excerptLength: 30 });
+    } catch (e) {
+      pfError = true;
+      console.warn('[search] index not available yet:', e);
+    }
+    return pf;
+  }
+
+  const modal = document.querySelector<HTMLDivElement>('[data-search-modal]');
+  const input = document.querySelector<HTMLInputElement>('[data-search-input]');
+  const resultsEl = document.querySelector<HTMLUListElement>('[data-search-results]');
+  const hintEl = document.querySelector<HTMLParagraphElement>('[data-search-hint]');
+
+  function openSearch() {
+    if (!modal) return;
+    modal.hidden = false;
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => input?.focus(), 20);
+    loadPagefind().then(() => {
+      if (pfError && hintEl) hintEl.textContent = 'Search becomes available after the site has been built and deployed.';
+    });
+  }
+
+  function closeSearch() {
+    if (!modal) return;
+    modal.hidden = true;
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (input) input.value = '';
+    if (resultsEl) resultsEl.innerHTML = '';
+    if (hintEl) hintEl.textContent = 'Type to search.';
+  }
+
+  // Open via trigger button(s) or Cmd/Ctrl+K
+  document.querySelectorAll('[data-search-open]').forEach((el) =>
+    el.addEventListener('click', openSearch)
+  );
+  document.querySelectorAll('[data-search-close]').forEach((el) =>
+    el.addEventListener('click', closeSearch)
+  );
+  document.addEventListener('keydown', (e) => {
+    const isOpen = modal && !modal.hidden;
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      isOpen ? closeSearch() : openSearch();
+    } else if (e.key === 'Escape' && isOpen) {
+      e.preventDefault();
+      closeSearch();
+    }
+  });
+
+  // Live search (debounced)
+  let timer: number | undefined;
+  input?.addEventListener('input', () => {
+    if (timer) window.clearTimeout(timer);
+    const q = input.value.trim();
+    timer = window.setTimeout(async () => {
+      if (!resultsEl || !hintEl) return;
+      if (!q) {
+        resultsEl.innerHTML = '';
+        hintEl.textContent = 'Type to search.';
+        return;
+      }
+      const lib = await loadPagefind();
+      if (!lib) {
+        hintEl.textContent = 'Search becomes available after the site has been built and deployed.';
+        return;
+      }
+      const s = await lib.search(q);
+      if (s.results.length === 0) {
+        resultsEl.innerHTML = '';
+        hintEl.textContent = `No matches for "${q}".`;
+        return;
+      }
+      const data = await Promise.all(s.results.slice(0, 8).map((r: any) => r.data()));
+      hintEl.textContent = `${s.results.length} result${s.results.length === 1 ? '' : 's'} · ↵ to open`;
+      resultsEl.innerHTML = data
+        .map((r: any) => {
+          const title = (r.meta && r.meta.title) || r.url;
+          return `
+            <li class="search-result">
+              <a href="${r.url}">
+                <span class="search-result__title">${title}</span>
+                <span class="search-result__path">${r.url}</span>
+                <span class="search-result__excerpt">${r.excerpt}</span>
+              </a>
+            </li>`;
+        })
+        .join('');
+    }, 120);
+  });
+</script>
+
+<style>
+  /* TRIGGER (in header) */
+  .search-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.45rem 0.8rem;
+    background: transparent;
+    border: 1px solid color-mix(in srgb, var(--muted) 40%, transparent);
+    border-radius: 4px;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: var(--f-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition: color 160ms ease, border-color 160ms ease;
+  }
+  .search-trigger:hover { color: var(--ink); border-color: var(--ink); }
+  .search-trigger__icon { width: 13px; height: 13px; flex-shrink: 0; }
+  .search-trigger__kbd {
+    font-family: var(--f-mono);
+    font-size: 0.62rem;
+    padding: 0.1rem 0.35rem;
+    border: 1px solid color-mix(in srgb, var(--muted) 40%, transparent);
+    border-radius: 3px;
+    color: var(--muted);
+  }
+  @media (max-width: 720px) {
+    .search-trigger__label, .search-trigger__kbd { display: none; }
+    .search-trigger { padding: 0.45rem; }
+  }
+
+  /* MODAL */
+  .search-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: clamp(2rem, 8vh, 6rem) 1rem;
+  }
+  .search-modal[hidden] { display: none; }
+  .search-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, var(--ink) 50%, transparent);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .search-modal__panel {
+    position: relative;
+    width: 100%;
+    max-width: 680px;
+    background: var(--bg-light);
+    border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+    border-radius: 6px;
+    box-shadow: 0 30px 60px -20px color-mix(in srgb, var(--ink) 35%, transparent);
+    overflow: hidden;
+  }
+  .search-modal__accent {
+    height: 3px;
+    background: var(--accent);
+  }
+  .search-modal__head {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--muted) 35%, transparent);
+  }
+  .search-modal__icon { width: 15px; height: 15px; color: var(--muted); flex-shrink: 0; }
+  .search-modal__input {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    outline: none;
+    font-family: var(--f-display);
+    font-size: 1.05rem;
+    color: var(--ink);
+  }
+  .search-modal__input::placeholder { color: color-mix(in srgb, var(--muted) 80%, var(--bg-dark)); }
+  .search-modal__close {
+    font-family: var(--f-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    padding: 0.25rem 0.45rem;
+    background: transparent;
+    border: 1px solid color-mix(in srgb, var(--muted) 40%, transparent);
+    border-radius: 3px;
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .search-modal__close:hover { color: var(--ink); border-color: var(--ink); }
+
+  .search-modal__results {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+  .search-modal__results :global(.search-result) {
+    border-bottom: 1px solid color-mix(in srgb, var(--muted) 22%, transparent);
+  }
+  .search-modal__results :global(.search-result:last-child) { border-bottom: 0; }
+  .search-modal__results :global(.search-result a) {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "title path" "excerpt excerpt";
+    gap: 0.25rem 0.8rem;
+    padding: 0.85rem 1rem;
+    color: var(--ink);
+    text-decoration: none;
+    transition: background 120ms ease;
+  }
+  .search-modal__results :global(.search-result a:hover) { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+  .search-modal__results :global(.search-result__title) {
+    grid-area: title;
+    font-family: var(--f-display); font-weight: 600; font-size: 0.98rem;
+  }
+  .search-modal__results :global(.search-result__path) {
+    grid-area: path;
+    font-family: var(--f-mono); font-size: 0.7rem; color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  .search-modal__results :global(.search-result__excerpt) {
+    grid-area: excerpt;
+    font-size: 0.85rem; line-height: 1.4;
+    color: color-mix(in srgb, var(--ink) 70%, var(--bg-dark));
+  }
+  .search-modal__results :global(mark) {
+    background: color-mix(in srgb, var(--accent) 25%, transparent);
+    color: var(--ink);
+    padding: 0 0.1em;
+    border-radius: 2px;
+  }
+
+  .search-modal__hint {
+    margin: 0;
+    padding: 0.7rem 1rem;
+    font-family: var(--f-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    border-top: 1px solid color-mix(in srgb, var(--muted) 22%, transparent);
+    background: color-mix(in srgb, var(--muted) 5%, transparent);
+  }
+</style>
