@@ -4,15 +4,15 @@
   "nav": [
     {
       "label": "Repository",
-      "href": "#"
+      "href": "https://sanguinebio.netlify.app/repository"
     },
     {
       "label": "Products",
-      "href": "#"
+      "href": "https://sanguinebio.netlify.app/products"
     },
     {
       "label": "Socials",
-      "href": "#"
+      "href": "socials"
     }
   ],
   "railAperture": "APERTURE · C",
