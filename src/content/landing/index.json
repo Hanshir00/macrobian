@@ -2,10 +2,15 @@
   "brandName": "SANGUINE",
   "brandVersion": "V.01",
   "nav": [
-    { "label": "PRODUCT", "href": "#" },
-    { "label": "SCIENCE", "href": "#" },
-    { "label": "METHOD", "href": "#" },
-    { "label": "ACCESS", "href": "#" }
+    {
+      "label": "Products"
+    },
+    {
+      "label": "Repository"
+    },
+    {
+      "label": "Socials"
+    }
   ],
   "railAperture": "APERTURE · C",
   "railDiameter": "Ø 412 MM",
@@ -13,13 +18,13 @@
   "railRev": "REV 04",
   "spineText": "SANGUINE · SYSTEM 01 · BUILD 24.05",
   "spineNumber": "04",
-  "eyebrowLeft": "A HEALTH INSTRUMENT",
-  "eyebrowRight": "BUILT FOR CLINICIANS",
+  "eyebrowLeft": "VITALITY",
+  "eyebrowRight": "INQUIRY",
   "title": "Sanguine",
-  "description": "Continuous vital-sign measurement, reduced to the few numbers that decide care. No noise, no dashboards — a calibrated instrument for the people reading the body.",
-  "primaryLabel": "REQUEST ACCESS",
+  "description": "Autonomy in health",
+  "primaryLabel": "Products",
   "primaryHref": "#",
-  "secondaryLabel": "READ THE METHOD",
+  "secondaryLabel": "Tools",
   "secondaryHref": "/method",
   "footerLeft": "APERTURE · C",
   "footerCenter": "PLATE 03 / 04 · 2026-05-28",
@@ -30,7 +35,7 @@
     "colorInk": "#171716",
     "colorMuted": "#8C8C86",
     "colorAccent": "#DA3A2C",
-    "fontDisplay": "Inter",
+    "fontDisplay": "Archivo",
     "fontMono": "JetBrains+Mono",
     "typeScale": "1"
   }
