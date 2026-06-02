@@ -18,13 +18,13 @@
   "railAperture": "APERTURE · C",
   "railDiameter": "Ø 313 MM",
   "railTolerance": "±0.02",
-  "railRev": "REV 04",
+  "railRev": "REV 07",
   "spineText": "SANGUINE · SYSTEM 01 · BUILD 24.05",
   "spineNumber": "04",
   "eyebrowLeft": "VITALITY",
   "eyebrowRight": "INQUIRY",
   "title": "Sanguine",
-  "description": "Continuous vital-sign measurement, reduced to the few numbers that decide care. No noise, no dashboards — a calibrated instrument for the people reading the body.",
+  "description": "Autonomy in health. ",
   "primaryLabel": "Products",
   "primaryHref": "https://sanguinebio.netlify.app/products",
   "secondaryLabel": "Tools",
@@ -38,8 +38,8 @@
     "colorInk": "#171716",
     "colorMuted": "#8C8C86",
     "colorAccent": "#DA3A2C",
-    "fontDisplay": "Inter",
-    "fontMono": "JetBrains+Mono",
+    "fontDisplay": "Figtree",
+    "fontMono": "Martian+Mono",
     "typeScale": "1"
   }
 }
