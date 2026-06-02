@@ -4,14 +4,15 @@
   "nav": [
     {
       "label": "Repository",
-      "href": "#"
+      "href": "https://sanguinebio.netlify.app/repository"
     },
     {
-      "label": "References"
+      "label": "Products",
+      "href": "https://sanguinebio.netlify.app/products"
     },
     {
       "label": "Socials",
-      "href": "#"
+      "href": "https://sanguinebio.netlify.app/socials"
     }
   ],
   "railAperture": "APERTURE · C",
@@ -25,9 +26,9 @@
   "title": "Sanguine",
   "description": "Autonomy in health.",
   "primaryLabel": "Products",
-  "primaryHref": "#",
-  "secondaryLabel": "READ THE METHOD",
-  "secondaryHref": "/method",
+  "primaryHref": "https://sanguinebio.netlify.app/products",
+  "secondaryLabel": "TOOLS",
+  "secondaryHref": "https://sanguinebio.netlify.app/tools",
   "footerLeft": "APERTURE · C",
   "footerCenter": "PLATE 03 / 04 · 2026-05-28",
   "footerRight": "MIND / BODY",
