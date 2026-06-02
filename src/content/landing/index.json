@@ -1,29 +1,37 @@
 {
   "brandName": "SANGUINE",
-  "brandVersion": "V.01",
+  "brandVersion": "V.07",
   "nav": [
-    { "label": "PRODUCT", "href": "#" },
-    { "label": "SCIENCE", "href": "#" },
-    { "label": "METHOD", "href": "#" },
-    { "label": "ACCESS", "href": "#" }
+    {
+      "label": "Repository",
+      "href": "https://sanguinebio.netlify.app/repository"
+    },
+    {
+      "label": "Products",
+      "href": "https://sanguinebio.netlify.app/products"
+    },
+    {
+      "label": "Socials",
+      "href": "https://sanguinebio.netlify.app/socials"
+    }
   ],
   "railAperture": "APERTURE · C",
-  "railDiameter": "Ø 412 MM",
+  "railDiameter": "Ø 313 MM",
   "railTolerance": "±0.02",
   "railRev": "REV 04",
   "spineText": "SANGUINE · SYSTEM 01 · BUILD 24.05",
   "spineNumber": "04",
-  "eyebrowLeft": "A HEALTH INSTRUMENT",
-  "eyebrowRight": "BUILT FOR CLINICIANS",
+  "eyebrowLeft": "VITALITY",
+  "eyebrowRight": "INQUIRY",
   "title": "Sanguine",
   "description": "Continuous vital-sign measurement, reduced to the few numbers that decide care. No noise, no dashboards — a calibrated instrument for the people reading the body.",
-  "primaryLabel": "REQUEST ACCESS",
-  "primaryHref": "#",
-  "secondaryLabel": "READ THE METHOD",
-  "secondaryHref": "/method",
+  "primaryLabel": "Products",
+  "primaryHref": "https://sanguinebio.netlify.app/products",
+  "secondaryLabel": "Tools",
+  "secondaryHref": "https://sanguinebio.netlify.app/tools",
   "footerLeft": "APERTURE · C",
   "footerCenter": "PLATE 03 / 04 · 2026-05-28",
-  "footerRight": "BERLIN / NYC",
+  "footerRight": "MIND / BODY",
   "theme": {
     "colorBgLight": "#EEECE8",
     "colorBgDark": "#D5D2CB",
