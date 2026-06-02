@@ -1,0 +1,64 @@
+---
+/**
+ * Inline PDF viewer (native browser embed).
+ * Renders a PDF from /public/files/ in an iframe — the browser's built-in
+ * viewer. Solid on desktop; many mobile browsers won't render a PDF inline,
+ * so a clear "Open the PDF" link is always shown beneath as a fallback.
+ */
+interface Props { src?: string; title?: string; height?: number; }
+const { src, title = 'PDF document', height = 640 } = Astro.props;
+const hasSrc = !!(src && src.trim());
+---
+
+{hasSrc ? (
+  <figure class="pdf">
+    <iframe
+      class="pdf__frame"
+      src={src}
+      title={title}
+      loading="lazy"
+      style={`height:${height}px`}
+    ></iframe>
+    <figcaption class="pdf__bar">
+      <a href={src} target="_blank" rel="noopener">Open the PDF in a new tab</a>
+      <span class="pdf__hint"> — use this if it doesn't display above (common on phones).</span>
+    </figcaption>
+  </figure>
+) : (
+  <p class="pdf__missing">
+    PDF viewer — set the source path (e.g. <code>/files/paper.pdf</code>).
+  </p>
+)}
+
+<style>
+  .pdf { margin: 1.8rem 0; }
+  .pdf__frame {
+    display: block;
+    width: 100%;
+    border: 1px solid color-mix(in srgb, var(--muted) 30%, transparent);
+    border-radius: 8px;
+    background: var(--bg-light);
+  }
+  .pdf__bar {
+    margin-top: 0.6rem;
+    font-family: var(--f-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .pdf__bar a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+  }
+  .pdf__missing {
+    margin: 1.8rem 0;
+    padding: 1rem 1.2rem;
+    border: 1px dashed color-mix(in srgb, var(--muted) 50%, transparent);
+    border-radius: 8px;
+    font-family: var(--f-mono);
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+</style>
