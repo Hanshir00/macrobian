@@ -1,0 +1,16 @@
+---
+// Wrapper: lays out child <Stat /> items as a row of big numbers.
+---
+
+<div class="stats-band"><slot /></div>
+
+<style>
+  .stats-band {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.4rem;
+    margin: 2rem 0;
+    padding: 1.4rem 1.2rem;
+    border-block: 1px solid color-mix(in srgb, var(--muted) 40%, transparent);
+  }
+</style>
