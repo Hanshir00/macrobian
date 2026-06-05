@@ -47,3 +47,9 @@ img, svg { display: block; max-width: 100%; }
     transition-duration: 0.01ms !important;
   }
 }
+/* Brand dot — single blink every 2 seconds */
+@keyframes brand-dot-blink {
+  0%, 88%, 100% { opacity: 1; }
+  92%, 96%      { opacity: 0.15; }
+}
+.brand__dot { animation: brand-dot-blink 2s ease-in-out infinite; }
