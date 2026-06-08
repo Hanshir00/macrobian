@@ -67,7 +67,9 @@ const fontsUrl = getGoogleFontsUrl(d);
         </span>
         <div class="spine__textwrap">
           <div class="spine__ticker">
-            <span class="spine__text">{d.spineText}</span>
+<span class="spine__text">{d.spineText}</span>
+            <span class="spine__text" aria-hidden="true">{d.spineText}</span>
+            <span class="spine__text" aria-hidden="true">{d.spineText}</span>
             <span class="spine__text" aria-hidden="true">{d.spineText}</span>
           </div>
         </div>
@@ -236,13 +238,13 @@ const fontsUrl = getGoogleFontsUrl(d);
         position: absolute;
         left: 0; right: 0;
         bottom: 42%;
-        height: clamp(7rem, 26vh, 13rem);
+top: 4rem;
         overflow: hidden;
         display: flex; justify-content: center;
       }
       .spine__ticker {
         display: flex; flex-direction: column;
-        animation: spineTick 16s linear infinite;
+animation: spineTick 10.67s linear infinite;
       }
       .spine__text {
         color: #fff; writing-mode: vertical-rl; transform: rotate(180deg);
@@ -251,7 +253,7 @@ const fontsUrl = getGoogleFontsUrl(d);
       }
 @keyframes spineTick {
         from { transform: translateY(0); }
-        to   { transform: translateY(-50%); }
+        to   { transform: translateY(-25%); }
       }
       @media (prefers-reduced-motion: reduce) {
         .spine__ticker { animation: none; }
