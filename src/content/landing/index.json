@@ -1,5 +1,5 @@
 {
-  "brandName": "SANGUINE",
+  "brandName": "Macrobia",
   "brandVersion": "V.07",
   "nav": [
     {
@@ -23,7 +23,7 @@
   "spineNumber": "04",
   "eyebrowLeft": "VITALITY",
   "eyebrowRight": "INQUIRY",
-  "title": "Sanguine",
+  "title": "Macrobia",
   "description": "Autonomy in health. ",
   "primaryLabel": "Repository",
   "primaryHref": "https://sanguinebio.netlify.app/repository",
