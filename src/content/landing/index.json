@@ -23,7 +23,7 @@
   "spineNumber": "04",
   "eyebrowLeft": "VITALITY",
   "eyebrowRight": "INQUIRY",
-  "title": "Macrobia",
+  "title": "Macrobian",
   "description": "Autonomy in health. ",
   "primaryLabel": "Repository",
   "primaryHref": "https://sanguinebio.netlify.app/repository",
@@ -38,7 +38,7 @@
     "colorInk": "#171716",
     "colorMuted": "#8C8C86",
     "colorAccent": "#DA3A2C",
-    "fontDisplay": "Figtree",
+    "fontDisplay": "Archivo",
     "fontMono": "Martian+Mono",
     "typeScale": "1"
   }
