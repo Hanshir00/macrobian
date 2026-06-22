@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://sanguinebio.netlify.app/sitemap-index.xml
