@@ -4,15 +4,15 @@
   "nav": [
     {
       "label": "Repository",
-      "href": "https://sanguinebio.netlify.app/repository"
+      "href": "/repository"
     },
     {
       "label": "Products",
-      "href": "https://sanguinebio.netlify.app/products"
+      "href": "/products"
     },
     {
       "label": "Socials",
-      "href": "https://sanguinebio.netlify.app/socials"
+      "href": "https:///socials"
     }
   ],
   "railAperture": "APERTURE · C",
@@ -26,9 +26,9 @@
   "title": "Macrobian",
   "description": "Autonomy in health. ",
   "primaryLabel": "Repository",
-  "primaryHref": "https://sanguinebio.netlify.app/repository",
+  "primaryHref": "https:///repository",
   "secondaryLabel": "Tools",
-  "secondaryHref": "https://sanguinebio.netlify.app/tools",
+  "secondaryHref": "https:///tools",
   "footerLeft": "APERTURE · C",
   "footerCenter": "PLATE 03 / 04 · 2026-05-28",
   "footerRight": "MIND / BODY",
