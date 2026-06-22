@@ -1,5 +1,12 @@
 ---
-import { getLanding, getThemeStyle, getGoogleFontsUrl } from '../config/landing';
+import { getLanding, getThemeStyle } from '../config/landing';
+import '@fontsource/raleway/400.css';
+import '@fontsource/raleway/500.css';
+import '@fontsource/raleway/600.css';
+import '@fontsource/raleway/700.css';
+import '@fontsource/raleway/800.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
 import Search from '../components/Search.astro';
 import '../styles/global.css';
 
@@ -11,7 +18,6 @@ const { title, description } = Astro.props;
 
 const d = getLanding();
 const themeCss = getThemeStyle(d);
-const fontsUrl = getGoogleFontsUrl(d);
 const desc = description || d.description;
 ---
 
@@ -23,11 +29,24 @@ const desc = description || d.description;
     <title>{title} — {d.brandName}</title>
     <meta name="description" content={desc} />
     <meta name="theme-color" content={d.theme.colorBgLight} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${title} — ${d.brandName}`} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:image" content={new URL('/og.png', Astro.site)} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} — ${d.brandName}`} />
+    <meta name="twitter:description" content={desc} />
+    <meta name="twitter:image" content={new URL('/og.png', Astro.site)} />
+
     <style is:inline set:html={themeCss}></style>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href={fontsUrl} />
   </head>
 
   <body>
