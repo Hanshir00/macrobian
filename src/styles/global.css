@@ -53,3 +53,28 @@ img, svg { display: block; max-width: 100%; }
   92%, 96%      { opacity: 0.15; }
 }
 .brand__dot { animation: brand-dot-blink 2s ease-in-out infinite; }
+/* Tables authored in the Keystatic editor */
+.page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.6rem 0;
+  font-size: 0.92rem;
+}
+.page table th,
+.page table td {
+  border: 1px solid color-mix(in srgb, var(--muted) 40%, transparent);
+  padding: 0.55rem 0.8rem;
+  text-align: left;
+  vertical-align: top;
+}
+.page table th {
+  font-family: var(--f-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.74rem;
+  background: color-mix(in srgb, var(--muted) 12%, transparent);
+  color: var(--ink);
+}
+.page table tr:nth-child(even) td {
+  background: color-mix(in srgb, var(--muted) 6%, transparent);
+}
