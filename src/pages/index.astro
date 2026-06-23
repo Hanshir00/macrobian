@@ -227,7 +227,7 @@ const fontsUrl = getGoogleFontsUrl(d);
         font-family: var(--f-mono);
         letter-spacing: 0.16em;
         text-transform: uppercase;
-        font-size: calc(0.72rem * var(--type-scale, 1));
+        font-size: calc(0.8rem * var(--type-scale, 1));
       }
 
       /* Top bar */
@@ -238,7 +238,7 @@ const fontsUrl = getGoogleFontsUrl(d);
         z-index: 5;
       }
 .brand { display: inline-flex; align-items: center; gap: 0.6rem; }
-      .brand__sun { width: 18px; height: 18px; color: var(--ink); display: inline-flex; flex: none; }
+.brand__sun { width: 20px; height: 20px; color: var(--accent); display: inline-flex; flex: none; }
       .brand__sun svg { width: 100%; height: 100%; }
 
       /* Counter-rotating sun: long rays one way, short rays the other */
@@ -250,15 +250,33 @@ const fontsUrl = getGoogleFontsUrl(d);
         .sun__long, .sun__short { animation: none; }
       }
 
-      /* Large sun mark in hero whitespace, under the buttons */
+/* Large sun mark in hero whitespace, under the buttons */
       .hero__mark {
+        position: relative;
         margin-top: clamp(2.4rem, 5vw, 4rem);
-        width: clamp(54px, 7vw, 84px);
-        height: clamp(54px, 7vw, 84px);
+        width: clamp(108px, 14vw, 168px);
+        height: clamp(108px, 14vw, 168px);
         color: var(--ink);
         opacity: 0.85;
       }
-      .hero__mark svg { width: 100%; height: 100%; }
+      /* reddish-yellow glow behind the central M */
+      .hero__mark::before {
+        content: '';
+        position: absolute;
+        left: 50%; top: 50%;
+        width: 46%; height: 46%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: radial-gradient(circle,
+          rgba(255, 196, 64, 0.85) 0%,
+          rgba(241, 138, 44, 0.55) 38%,
+          rgba(218, 58, 44, 0.28) 66%,
+          rgba(218, 58, 44, 0) 78%);
+        filter: blur(6px);
+        z-index: 0;
+        pointer-events: none;
+      }
+      .hero__mark svg { position: relative; z-index: 1; width: 100%; height: 100%; }
       .brand__name { color: var(--ink); font-weight: 500; letter-spacing: 0.22em; font-size: calc(0.6rem * var(--type-scale, 1)); }
       .brand__ver { color: var(--muted); font-size: calc(0.6rem * var(--type-scale, 1)); }
       .topbar__right { display: flex; align-items: center; gap: clamp(1.2rem, 3vw, 2.6rem); }
