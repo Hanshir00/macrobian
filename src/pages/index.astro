@@ -19,6 +19,16 @@ const fontsUrl = getGoogleFontsUrl(d);
     <meta name="description" content={d.description} />
     <meta name="theme-color" content={d.theme.colorBgLight} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="canonical" href={new URL('/', Astro.site)} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${d.brandName} — ${d.eyebrowLeft}`} />
+    <meta property="og:description" content={d.description} />
+    <meta property="og:url" content={new URL('/', Astro.site)} />
+    <meta property="og:image" content={new URL('/og.png', Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${d.brandName} — ${d.eyebrowLeft}`} />
+    <meta name="twitter:description" content={d.description} />
+    <meta name="twitter:image" content={new URL('/og.png', Astro.site)} />
     <style is:inline set:html={themeCss}></style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -29,8 +39,39 @@ const fontsUrl = getGoogleFontsUrl(d);
     <main class="stage">
       <!-- Top bar -->
       <header class="topbar">
-        <a class="brand" href="/">
-          <span class="brand__dot" aria-hidden="true"></span>
+<a class="brand" href="/">
+          <span class="brand__sun" aria-hidden="true">
+            <svg viewBox="0 0 200 200" fill="none">
+              <g class="sun__long" stroke="currentColor" stroke-width="9" stroke-linecap="round">
+                <line x1="100" y1="60" x2="100" y2="12" transform="rotate(0 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="12" transform="rotate(30 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="12" transform="rotate(60 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="12" transform="rotate(90 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="12" transform="rotate(120 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="12" transform="rotate(150 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="12" transform="rotate(180 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="12" transform="rotate(210 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="12" transform="rotate(240 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="12" transform="rotate(270 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="12" transform="rotate(300 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="12" transform="rotate(330 100 100)"/>
+              </g>
+              <g class="sun__short" stroke="currentColor" stroke-width="9" stroke-linecap="round">
+                <line x1="100" y1="60" x2="100" y2="36" transform="rotate(15 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="36" transform="rotate(45 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="36" transform="rotate(75 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="36" transform="rotate(105 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="36" transform="rotate(135 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="36" transform="rotate(165 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="36" transform="rotate(195 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="36" transform="rotate(225 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="36" transform="rotate(255 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="36" transform="rotate(285 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="36" transform="rotate(315 100 100)"/>
+                <line x1="100" y1="60" x2="100" y2="36" transform="rotate(345 100 100)"/>
+              </g>
+            </svg>
+          </span>
           <span class="brand__name">{d.brandName}</span>
           <span class="brand__ver">{d.brandVersion}</span>
         </a>
@@ -112,10 +153,43 @@ const fontsUrl = getGoogleFontsUrl(d);
             <span class="btn__rule" aria-hidden="true"></span>
             <span aria-hidden="true">→</span>
           </a>
-          <a class="link" href={d.secondaryHref}>
+<a class="link" href={d.secondaryHref}>
             <span class="link__rule" aria-hidden="true"></span>
             {d.secondaryLabel}
           </a>
+        </div>
+        <div class="hero__mark" aria-hidden="true">
+          <svg viewBox="0 0 200 200" fill="none">
+            <g class="sun__long" stroke="currentColor" stroke-width="5" stroke-linecap="round">
+              <line x1="100" y1="60" x2="100" y2="12" transform="rotate(0 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="12" transform="rotate(30 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="12" transform="rotate(60 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="12" transform="rotate(90 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="12" transform="rotate(120 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="12" transform="rotate(150 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="12" transform="rotate(180 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="12" transform="rotate(210 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="12" transform="rotate(240 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="12" transform="rotate(270 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="12" transform="rotate(300 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="12" transform="rotate(330 100 100)"/>
+            </g>
+            <g class="sun__short" stroke="currentColor" stroke-width="5" stroke-linecap="round">
+              <line x1="100" y1="60" x2="100" y2="36" transform="rotate(15 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="36" transform="rotate(45 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="36" transform="rotate(75 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="36" transform="rotate(105 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="36" transform="rotate(135 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="36" transform="rotate(165 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="36" transform="rotate(195 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="36" transform="rotate(225 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="36" transform="rotate(255 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="36" transform="rotate(285 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="36" transform="rotate(315 100 100)"/>
+              <line x1="100" y1="60" x2="100" y2="36" transform="rotate(345 100 100)"/>
+            </g>
+            <path d="M82,116 L84,84 L100,106 L116,84 L118,116" fill="none" stroke="currentColor" stroke-width="5" opacity="0.6" stroke-linejoin="miter" stroke-linecap="butt" transform="translate(100 100) scale(0.88) translate(-100 -100)"/>
+          </svg>
         </div>
       </section>
 
@@ -163,8 +237,28 @@ const fontsUrl = getGoogleFontsUrl(d);
         padding: clamp(1.4rem, 3vw, 2.4rem) clamp(1.4rem, 4vw, 3.2rem);
         z-index: 5;
       }
-      .brand { display: inline-flex; align-items: center; gap: 0.6rem; }
-      .brand__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); }
+.brand { display: inline-flex; align-items: center; gap: 0.6rem; }
+      .brand__sun { width: 18px; height: 18px; color: var(--ink); display: inline-flex; flex: none; }
+      .brand__sun svg { width: 100%; height: 100%; }
+
+      /* Counter-rotating sun: long rays one way, short rays the other */
+      .sun__long  { transform-origin: 100px 100px; animation: sunSpinCW 24s linear infinite; }
+      .sun__short { transform-origin: 100px 100px; animation: sunSpinCCW 32s linear infinite; }
+      @keyframes sunSpinCW  { to { transform: rotate(360deg); } }
+      @keyframes sunSpinCCW { to { transform: rotate(-360deg); } }
+      @media (prefers-reduced-motion: reduce) {
+        .sun__long, .sun__short { animation: none; }
+      }
+
+      /* Large sun mark in hero whitespace, under the buttons */
+      .hero__mark {
+        margin-top: clamp(2.4rem, 5vw, 4rem);
+        width: clamp(54px, 7vw, 84px);
+        height: clamp(54px, 7vw, 84px);
+        color: var(--ink);
+        opacity: 0.85;
+      }
+      .hero__mark svg { width: 100%; height: 100%; }
       .brand__name { color: var(--ink); font-weight: 500; letter-spacing: 0.22em; font-size: calc(0.6rem * var(--type-scale, 1)); }
       .brand__ver { color: var(--muted); font-size: calc(0.6rem * var(--type-scale, 1)); }
       .topbar__right { display: flex; align-items: center; gap: clamp(1.2rem, 3vw, 2.6rem); }
