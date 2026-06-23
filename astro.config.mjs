@@ -8,7 +8,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-site: 'https://sanguinebio.netlify.app',
+site: 'https://macrobian.science',
   // Server output so the Keystatic admin (/keystatic, /api/keystatic) runs on
   // the server. The landing page itself is prerendered (see prerender = true).
   output: 'server',
