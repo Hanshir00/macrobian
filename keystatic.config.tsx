@@ -12,10 +12,10 @@ const storage = import.meta.env.DEV
 
 export default config({
   storage,
-  cloud: { project: 'sanguinebio/sanguine' },
+cloud: { project: 'macrobian-macrobian' },
 
   ui: {
-    brand: { name: 'Sanguine' },
+brand: { name: 'Macrobian' },
     navigation: {
       'Global': ['landing'],
       'Collections': ['pages', 'repository', 'products', 'other'],
