@@ -12,7 +12,7 @@ const storage = import.meta.env.DEV
 
 export default config({
   storage,
-cloud: { project: 'macrobian-macrobian' },
+cloud: { project: 'macrobian-macrobian/macrobian' },
 
   ui: {
 brand: { name: 'Macrobian' },
