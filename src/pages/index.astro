@@ -473,8 +473,37 @@ clip-path: inset(60% 0 28% 0);   /* matches band: 60% → 72% */
       .plate span:nth-child(2) { position: absolute; left: 50%; transform: translateX(-50%); }
 
       /* ---------- Responsive ---------- */
+/* Mobile-only hero sun — hidden on desktop (desktop uses the spine sun) */
+      .hero__mark--mobile {
+        display: none;
+        position: relative;
+        width: clamp(96px, 32vw, 150px);
+        height: clamp(96px, 32vw, 150px);
+        margin-top: clamp(2.4rem, 8vw, 3.6rem);
+        color: var(--ink);
+        opacity: 0.9;
+      }
+      .hero__mark--mobile::before {
+        content: '';
+        position: absolute;
+        left: 50%; top: 50%;
+        width: 46%; height: 46%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: radial-gradient(circle,
+          rgba(255, 196, 64, 0.9) 0%,
+          rgba(241, 138, 44, 0.6) 38%,
+          rgba(218, 58, 44, 0.3) 66%,
+          rgba(218, 58, 44, 0) 78%);
+        filter: blur(6px);
+        z-index: 0;
+        pointer-events: none;
+      }
+      .hero__mark--mobile svg { position: relative; z-index: 1; width: 100%; height: 100%; }
+
       @media (max-width: 900px) {
         .stage { min-height: 100svh; }
+        .hero__mark--mobile { display: block; }
         .rail { display: none; }
         .spine { width: 8px; left: 0; }
         .spine::after, .spine__cross, .spine__textwrap, .spine__dial, .spine__num { display: none; }
