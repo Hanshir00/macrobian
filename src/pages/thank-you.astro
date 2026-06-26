@@ -1,0 +1,74 @@
+---
+export const prerender = true;
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Thank You" description="Your order is confirmed.">
+  <article>
+    <a class="back" href="/"><span class="back__arrow" aria-hidden="true">&larr;</span> Home</a>
+    <header class="page-head">
+      <span class="page-head__sq" aria-hidden="true"></span>
+      <h1>Thank you</h1>
+      <p class="page-head__intro">Your order is confirmed. Here's everything you need to get started.</p>
+    </header>
+
+    <div class="ty">
+      <section class="ty__step">
+        <span class="ty__num">01</span>
+        <div class="ty__body">
+          <h2>Your peptide guide</h2>
+          <p>Download your guide below. Keep this link private — it's tied to your purchase.</p>
+          <a class="ty__btn" href="/files/peptide-guide.pdf" download>
+            Download the guide <span aria-hidden="true">&darr;</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="ty__step">
+        <span class="ty__num">02</span>
+        <div class="ty__body">
+          <h2>Book your consultation</h2>
+          <p>Your starter pack includes a 30-minute consultation. Choose a time that works for you.</p>
+          <a class="ty__btn" href="https://calendly.com/YOUR-CALENDLY-HANDLE/30min" target="_blank" rel="noopener">
+            Schedule your call <span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="ty__step">
+        <span class="ty__num">03</span>
+        <div class="ty__body">
+          <h2>Your serum is on its way</h2>
+          <p>Your serum ships to the address provided at checkout. You'll receive a confirmation email with details. Questions? Reach us at <a href="mailto:contact@macrobian.science">contact@macrobian.science</a>.</p>
+        </div>
+      </section>
+    </div>
+  </article>
+
+  <style>
+    .ty { display: flex; flex-direction: column; gap: 2rem; margin-top: 2.5rem; max-width: 640px; }
+    .ty__step {
+      display: flex; gap: 1.4rem; align-items: flex-start;
+      padding: 1.6rem 0;
+      border-top: 1px solid color-mix(in srgb, var(--muted) 30%, transparent);
+    }
+    .ty__num {
+      font-family: var(--f-mono); font-size: 0.85rem; letter-spacing: 0.1em;
+      color: var(--accent); padding-top: 0.4rem; flex: none;
+    }
+    .ty__body h2 {
+      font-family: var(--f-display); font-weight: 600; font-size: 1.3rem;
+      color: var(--ink); margin: 0 0 0.5rem;
+    }
+    .ty__body p { color: color-mix(in srgb, var(--ink) 72%, var(--bg-dark)); line-height: 1.55; margin: 0 0 1rem; }
+    .ty__btn {
+      display: inline-flex; align-items: center; gap: 0.7rem;
+      background: var(--ink); color: var(--bg-light);
+      font-family: var(--f-mono); text-transform: uppercase; letter-spacing: 0.12em;
+      font-size: 0.78rem; padding: 0.85rem 1.3rem; border-radius: 7px;
+      text-decoration: none; transition: opacity 0.18s;
+    }
+    .ty__btn:hover { opacity: 0.85; }
+    .ty__body a[href^="mailto"] { color: var(--accent); }
+  </style>
+</Base>
