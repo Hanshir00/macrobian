@@ -7,7 +7,11 @@
  */
 interface Props { images?: string[]; alt?: string; }
 const { images, alt = '' } = Astro.props;
-const imgs = (images || []).filter(Boolean);
+// Keystatic's image field stores a bare filename (e.g. "serum.png"); resolve it
+// to its public path. Absolute paths (starting with /) are left untouched.
+const resolve = (s: string) =>
+  s.startsWith('/') || s.startsWith('http') ? s : `/images/gallery/${s}`;
+const imgs = (images || []).filter(Boolean).map(resolve);
 const uid = 'gal-' + Math.random().toString(36).slice(2, 9);
 ---
 
