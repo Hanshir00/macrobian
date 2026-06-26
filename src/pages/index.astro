@@ -164,20 +164,16 @@ const fontsUrl = getGoogleFontsUrl(d);
           <span class="title title--white" aria-hidden="true">{d.title}</span>
         </div>
         <p class="desc">{d.description}</p>
-        <div class="actions">
+<div class="actions">
           <a class="btn" href={d.primaryHref}>
             <span>{d.primaryLabel}</span>
             <span class="btn__rule" aria-hidden="true"></span>
             <span aria-hidden="true">→</span>
           </a>
-<a class="link" href={d.secondaryHref}>
+          <a class="link" href={d.secondaryHref}>
             <span class="link__rule" aria-hidden="true"></span>
             {d.secondaryLabel}
           </a>
-        </div>
-
-      </section>
-</a>
         </div>
         <div class="hero__mark hero__mark--mobile" aria-hidden="true">
           <svg viewBox="0 0 200 200" fill="none">
@@ -474,12 +470,12 @@ clip-path: inset(60% 0 28% 0);   /* matches band: 60% → 72% */
 
       /* ---------- Responsive ---------- */
 /* Mobile-only hero sun — hidden on desktop (desktop uses the spine sun) */
-      .hero__mark--mobile {
+.hero__mark--mobile {
         display: none;
         position: relative;
-        width: clamp(96px, 32vw, 150px);
-        height: clamp(96px, 32vw, 150px);
-        margin-top: clamp(2.4rem, 8vw, 3.6rem);
+        width: clamp(116px, 38vw, 180px);
+        height: clamp(116px, 38vw, 180px);
+        margin: clamp(3rem, 10vw, 5rem) auto 0;
         color: var(--ink);
         opacity: 0.9;
       }
