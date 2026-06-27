@@ -82,5 +82,12 @@ export default defineMarkdocConfig({
         height: { type: Number, default: 640 },
       },
     },
+    stripeButton: {
+      render: component('./src/components/markdoc/StripeButton.astro'),
+      attributes: {
+        buttonId:       { type: String },
+        publishableKey: { type: String },
+      },
+    },
   },
 });
