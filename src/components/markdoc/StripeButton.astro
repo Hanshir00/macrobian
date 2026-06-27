@@ -1,0 +1,19 @@
+---
+interface Props {
+  buttonId?: string;
+  publishableKey?: string;
+}
+const { buttonId, publishableKey } = Astro.props;
+---
+
+<div class="stripe-buy">
+  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+  <stripe-buy-button
+    buy-button-id={buttonId}
+    publishable-key={publishableKey}
+  ></stripe-buy-button>
+</div>
+
+<style>
+  .stripe-buy { margin: 2rem 0; display: flex; justify-content: center; }
+</style>
