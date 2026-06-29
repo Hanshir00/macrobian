@@ -89,5 +89,15 @@ export default defineMarkdocConfig({
         publishableKey: { type: String },
       },
     },
+   buyButton: {
+      render: component('./src/components/markdoc/BuyButton.astro'),
+      attributes: {
+        href:  { type: String },
+        label: { type: String },
+        color: { type: String, default: 'ink' },
+        size:  { type: String, default: 'md' },
+        align: { type: String, default: 'center' },
+      },
+    }, 
   },
 });
