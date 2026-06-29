@@ -228,6 +228,47 @@ brand: { name: 'Macrobian' },
                 }),
               },
             }),
+            buyButton: block({
+              label: 'Buy button (Payment Link)',
+              description: 'A styled button linking to a Stripe Payment Link. Set the redirect + Terms checkbox in the Payment Link settings on Stripe.',
+              schema: {
+                href: fields.text({
+                  label: 'Payment Link URL',
+                  description: 'From Stripe: buy.stripe.com/...',
+                  validation: { isRequired: true },
+                }),
+                label: fields.text({
+                  label: 'Button text',
+                  defaultValue: 'Buy now',
+                }),
+                color: fields.select({
+                  label: 'Color',
+                  options: [
+                    { label: 'Ink (dark)', value: 'ink' },
+                    { label: 'Accent (red)', value: 'accent' },
+                    { label: 'Outline', value: 'outline' },
+                  ],
+                  defaultValue: 'ink',
+                }),
+                size: fields.select({
+                  label: 'Size',
+                  options: [
+                    { label: 'Small', value: 'sm' },
+                    { label: 'Medium', value: 'md' },
+                    { label: 'Large', value: 'lg' },
+                  ],
+                  defaultValue: 'md',
+                }),
+                align: fields.select({
+                  label: 'Alignment',
+                  options: [
+                    { label: 'Center', value: 'center' },
+                    { label: 'Left', value: 'left' },
+                  ],
+                  defaultValue: 'center',
+                }),
+              },
+            }),
           },
         }),
       },
@@ -435,6 +476,47 @@ brand: { name: 'Macrobian' },
                   label: 'Publishable key',
                   description: 'Starts with pk_live_ or pk_test_ (safe to expose)',
                   validation: { isRequired: true },
+                }),
+              },
+            }),
+            buyButton: block({
+              label: 'Buy button (Payment Link)',
+              description: 'A styled button linking to a Stripe Payment Link. Set the redirect + Terms checkbox in the Payment Link settings on Stripe.',
+              schema: {
+                href: fields.text({
+                  label: 'Payment Link URL',
+                  description: 'From Stripe: buy.stripe.com/...',
+                  validation: { isRequired: true },
+                }),
+                label: fields.text({
+                  label: 'Button text',
+                  defaultValue: 'Buy now',
+                }),
+                color: fields.select({
+                  label: 'Color',
+                  options: [
+                    { label: 'Ink (dark)', value: 'ink' },
+                    { label: 'Accent (red)', value: 'accent' },
+                    { label: 'Outline', value: 'outline' },
+                  ],
+                  defaultValue: 'ink',
+                }),
+                size: fields.select({
+                  label: 'Size',
+                  options: [
+                    { label: 'Small', value: 'sm' },
+                    { label: 'Medium', value: 'md' },
+                    { label: 'Large', value: 'lg' },
+                  ],
+                  defaultValue: 'md',
+                }),
+                align: fields.select({
+                  label: 'Alignment',
+                  options: [
+                    { label: 'Center', value: 'center' },
+                    { label: 'Left', value: 'left' },
+                  ],
+                  defaultValue: 'center',
                 }),
               },
             }),
@@ -648,6 +730,47 @@ brand: { name: 'Macrobian' },
                 }),
               },
             }),
+            buyButton: block({
+              label: 'Buy button (Payment Link)',
+              description: 'A styled button linking to a Stripe Payment Link. Set the redirect + Terms checkbox in the Payment Link settings on Stripe.',
+              schema: {
+                href: fields.text({
+                  label: 'Payment Link URL',
+                  description: 'From Stripe: buy.stripe.com/...',
+                  validation: { isRequired: true },
+                }),
+                label: fields.text({
+                  label: 'Button text',
+                  defaultValue: 'Buy now',
+                }),
+                color: fields.select({
+                  label: 'Color',
+                  options: [
+                    { label: 'Ink (dark)', value: 'ink' },
+                    { label: 'Accent (red)', value: 'accent' },
+                    { label: 'Outline', value: 'outline' },
+                  ],
+                  defaultValue: 'ink',
+                }),
+                size: fields.select({
+                  label: 'Size',
+                  options: [
+                    { label: 'Small', value: 'sm' },
+                    { label: 'Medium', value: 'md' },
+                    { label: 'Large', value: 'lg' },
+                  ],
+                  defaultValue: 'md',
+                }),
+                align: fields.select({
+                  label: 'Alignment',
+                  options: [
+                    { label: 'Center', value: 'center' },
+                    { label: 'Left', value: 'left' },
+                  ],
+                  defaultValue: 'center',
+                }),
+              },
+            }),
           },
         }),
       },
@@ -856,6 +979,47 @@ brand: { name: 'Macrobian' },
                   label: 'Publishable key',
                   description: 'Starts with pk_live_ or pk_test_ (safe to expose)',
                   validation: { isRequired: true },
+                }),
+              },
+            }),
+            buyButton: block({
+              label: 'Buy button (Payment Link)',
+              description: 'A styled button linking to a Stripe Payment Link. Set the redirect + Terms checkbox in the Payment Link settings on Stripe.',
+              schema: {
+                href: fields.text({
+                  label: 'Payment Link URL',
+                  description: 'From Stripe: buy.stripe.com/...',
+                  validation: { isRequired: true },
+                }),
+                label: fields.text({
+                  label: 'Button text',
+                  defaultValue: 'Buy now',
+                }),
+                color: fields.select({
+                  label: 'Color',
+                  options: [
+                    { label: 'Ink (dark)', value: 'ink' },
+                    { label: 'Accent (red)', value: 'accent' },
+                    { label: 'Outline', value: 'outline' },
+                  ],
+                  defaultValue: 'ink',
+                }),
+                size: fields.select({
+                  label: 'Size',
+                  options: [
+                    { label: 'Small', value: 'sm' },
+                    { label: 'Medium', value: 'md' },
+                    { label: 'Large', value: 'lg' },
+                  ],
+                  defaultValue: 'md',
+                }),
+                align: fields.select({
+                  label: 'Alignment',
+                  options: [
+                    { label: 'Center', value: 'center' },
+                    { label: 'Left', value: 'left' },
+                  ],
+                  defaultValue: 'center',
                 }),
               },
             }),
