@@ -179,21 +179,22 @@ const desc = description || d.description;
       .menu > summary {
         list-style: none; cursor: pointer;
         font-family: var(--f-mono); text-transform: uppercase; letter-spacing: 0.16em;
-        font-size: 0.7rem; color: var(--muted); padding: 0.45rem 0.2rem;
+font-size: 0.7rem; color: var(--muted); padding: 1.05rem 0.5rem;
       }
       .menu > summary::-webkit-details-marker { display: none; }
       .menu[open] > summary { color: var(--ink); }
       .menu__panel {
         position: absolute; right: 0; top: 100%; margin-top: 0.55rem;
-        display: flex; flex-direction: column; gap: 0.9rem;
-        min-width: 160px; padding: 0.95rem 1.1rem; z-index: 30;
+display: flex; flex-direction: column; gap: 0.2rem;
+        min-width: 176px; padding: 0.6rem 1.1rem; z-index: 30;
         background: var(--bg-light);
         border: 1px solid color-mix(in srgb, var(--muted) 35%, transparent);
         border-radius: 6px;
       }
-      .menu__panel a {
+.menu__panel a {
         color: var(--muted); font-family: var(--f-mono); text-transform: uppercase;
         letter-spacing: 0.16em; font-size: 0.72rem; transition: color 160ms ease;
+        display: block; padding: 1rem 0;
       }
       .menu__panel a:hover { color: var(--ink); }
 
@@ -220,6 +221,23 @@ const desc = description || d.description;
         .menu { display: block; }
         .plate { flex-direction: column; gap: 0.4rem; }
       }
-    </style>
+</style>
+    <script>
+      // Close the mobile <details> menu on outside tap or Escape.
+      (function () {
+        const menu = document.querySelector('details.menu');
+        if (!menu) return;
+        document.addEventListener('click', (e) => {
+          if (menu.open && !menu.contains(e.target)) menu.open = false;
+        });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && menu.open) {
+            menu.open = false;
+            const s = menu.querySelector('summary');
+            if (s) s.focus();
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
